@@ -41,5 +41,6 @@ install:
   - python setup.py install
 
 script:
-  - python -OO -c "import py3nj"
   - py.test tests
+  - cd tests
+  - python -OO -c "import py3nj"

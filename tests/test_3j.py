@@ -6,10 +6,10 @@ from py3nj import wigner, wigner3j
 rng = np.random.RandomState(0)
 # precalculated 3j symbols. Input, result
 THREE_J = (
-    ((1, 1, 0, 0, 0, 0), -np.sqrt(1/3)),
-    ((0, 1, 1, 0, 0, 0), -np.sqrt(1/3)),
-    ((2, 1, 1, 0, 0, 0), np.sqrt(2/15)),
-    ((0, 1, 1, 0,-1, 1), np.sqrt(1/3)),
+    ((1, 1, 0, 0, 0, 0), -np.sqrt(1.0/3)),
+    ((0, 1, 1, 0, 0, 0), -np.sqrt(1.0/3)),
+    ((2, 1, 1, 0, 0, 0), np.sqrt(2.0/15)),
+    ((0, 1, 1, 0,-1, 1), np.sqrt(1.0/3)),
 )
 
 
