@@ -3,6 +3,7 @@ program main
   call test_drc3jj
   call test_drc3jj_int
   call test_drc3jj_vec
+  call test_drc3jj_vec2
 end program main
 
 
@@ -43,6 +44,14 @@ subroutine test_drc3jj_int
   call drc3jj_int(l2, l3, m2, m3, l1min, l1max, thrcof, 10, ier)
   print *, l1min, l1max
   print *, thrcof
+
+  l2 = 18
+  l3 = 0
+  m2 = 10
+  m3 = 0
+  call drc3jj_int(l2, l3, m2, m3, l1min, l1max, thrcof, 10, ier)
+  print *, l1min, l1max
+  print *, thrcof
 end subroutine test_drc3jj_int
 
 
@@ -58,3 +67,20 @@ subroutine test_drc3jj_vec
   call drc3jj_vec(l2, l3, m2, m3, 11, thrcof, 8, ier)
   print *, thrcof
 end subroutine test_drc3jj_vec
+
+subroutine test_drc3jj_vec2
+  implicit none
+  integer l2(2), l3(2), m2(2), m3(2), nvec, ndim, ier
+  double precision thrcof(2, 19)
+  integer i
+
+  l2 = (/ 18, 10/)
+  l3 = (/ 0, 0/)
+  m2 = (/ 10, 1/)
+  m3 = (/ 0, 0/)
+
+  do i=1, 4
+    call drc3jj_vec(l2, l3, m2, m3, 2, thrcof, 19, ier)
+    print *, ier, i
+  enddo
+end subroutine test_drc3jj_vec2
