@@ -1,5 +1,7 @@
 # py3nj
 
+![travis](https://travis-ci.org/fujiisoup/py3nj.svg?branch=master)
+
 A small library to calcluate wigner's 3j-, 6j- and 9j- symbols.
 This library is designed to be compatible with numpy's np.ndarray and
 the calculation is vectorized automatically.
