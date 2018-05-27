@@ -1,5 +1,5 @@
 import numpy as np
-import _wigner
+from py3nj import _wigner
 
 
 def int_broadcast(*args):
@@ -23,11 +23,11 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
     -------
     threej: 1d-np.ndarray
     """
-    if (two_l1 < 0).any():
-        raise ValueError('Some of l values are negative')
-
     two_l1, two_l2, two_l3, two_m1, two_m2, two_m3 = int_broadcast(
         two_l1, two_l2, two_l3, two_m1, two_m2, two_m3)
+
+    if (two_l1 < 0).any():
+        raise ValueError('Some of l values are negative')
 
     l, thrcof = drc3jj(two_l2, two_l3, two_m2, two_m3)
 
@@ -36,6 +36,9 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
 
     two_l1 = two_l1.ravel()
     valid = (two_l1 < l1max) * ((two_m1 + two_m2 + two_m3).ravel() == 0)
+
+    if shape == ():  # scale case
+        return np.where(valid, thrcof[two_l1], 0.0)[0]
     thrcof = np.where(valid, thrcof[np.arange(len(two_l1)), two_l1], 0.0)
     return thrcof.reshape(shape)
 
@@ -76,6 +79,28 @@ def drc3jj(two_l2, two_l3, two_m2, two_m3):
 
 def _drc3jj(two_l2, two_l3, two_m2, two_m3):
     """ scalar version of drc3jj """
+    l1max = (two_l2 + two_l3) / 2
+    l1min = max(np.abs(two_l2 - two_l3), np.abs(two_m2 + two_m3)) / 2
+    ndim = int(l1max - l1min + 1)
+
+    l1min, l1max, thrcof, ier = _wigner.drc3jj_int(
+        two_l2, two_l3, two_m2, two_m3, ndim)
+    if ier == 1:
+        raise ValueError('Either L2.LT.ABS(M2) or L3.LT.ABS(M3).')
+    elif ier == 2:
+        raise ValueError('Either L2+ABS(M2) or L3+ABS(M3) non-integer.')
+    elif ier == 3:
+        raise ValueError('L1MAX-L1MIN not an integer.')
+    elif ier == 4:
+        raise ValueError('L1MAX less than L1MIN.')
+    elif ier == 5:
+        raise ValueError('NDIM less than L1MAX-L1MIN+1.')
+
+    return np.arange(l1min, l1min + ndim * 2, 2), thrcof
+
+
+def _drc6j(two_l2, two_l3, two_l4, two_l5, two_l6):
+    """ scalar version of drc6j """
     l1max = (two_l2 + two_l3) / 2
     l1min = max(np.abs(two_l2 - two_l3), np.abs(two_m2 + two_m3)) / 2
     ndim = int(l1max - l1min + 1)

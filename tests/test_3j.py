@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from py3nj import wigner
+from py3nj import wigner, wigner3j
 
 
 rng = np.random.RandomState(0)
@@ -86,9 +86,22 @@ def test_wigner3j(half_integer):
         lindex = rng.randint(0, 40, n) * 2 - 1 + half_integer
         two_l1 = l[lindex]
         two_m1 = -(m2 + m3)
-        actual = wigner.wigner3j(two_l1, l2, l3, two_m1, m2, m3)
+        actual = wigner3j(two_l1, l2, l3, two_m1, m2, m3)
         expected = expected_all[np.arange(len(lindex)), lindex]
         assert np.allclose(actual, expected)
+
+
+def test_wigner3j_value():
+    # scalar test
+    for three_j, expected in THREE_J:
+        three_j = np.array(three_j) * 2
+        actual = wigner3j(*three_j)
+        assert np.allclose(actual, expected)
+    # test vector
+    three_j = np.array([thr for thr, _ in THREE_J]).T * 2
+    expected = np.array([value for _, value in THREE_J]).T
+    actual = wigner3j(*three_j)
+    assert np.allclose(actual, expected)
 
 
 def test0d():

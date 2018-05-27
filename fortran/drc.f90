@@ -14,6 +14,23 @@ subroutine drc3jj_int(two_l2, two_l3, two_m2, two_m3, l1min, l1max, &
 end subroutine drc3jj_int
 
 
+subroutine drc6j_int(two_l2, two_l3, two_l4, two_l5, two_l6, l1min, l1max, &
+                     sixcof, ndim, ier)
+! evaluate wigner's 6j symbol
+  implicit none
+  integer two_l2, two_l3, two_l4, two_l5, two_l6, ndim, ier, l1min, l1max
+  double precision l1min_d, l1max_d
+  double precision sixcof(ndim)
+
+  call drc6j(0.5D0 * two_l2, 0.5D0 * two_l3, 0.5D0 * two_l4, 0.5D0 * two_l5, &
+             0.5D0 * two_l6, l1min_d, l1max_d, sixcof, ndim, ier)
+  l1min = nint(l1min_d*2)
+  l1max = nint(l1max_d*2)
+
+end subroutine drc6j_int
+
+
+
 subroutine drc3jj_vec(two_l2, two_l3, two_m2, two_m3, nvec, thrcof, ndim, ier)
   ! evaluate wigner's 3j symbol with vectorized input
   implicit none

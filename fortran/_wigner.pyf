@@ -12,6 +12,15 @@ python module _wigner
             integer intent(out):: ier
         end subroutine drc3jj_int
 
+        subroutine drc6j_int(two_l2, two_l3, two_m2, two_m3, l1min, l1max, &
+                             thrcof, ndim, ier)
+            integer intent(in) :: two_l2, two_l3, two_l4, two_l5, two_l6
+            integer intent(out) :: l1min, l1max
+            double precision dimension(ndim), intent(out),depend(ndim) :: sixcof
+            integer intent(in) :: ndim
+            integer intent(out):: ier
+        end subroutine drc6j_int
+
         subroutine drc3jj_vec(two_l2, two_l3, two_m2, two_m3, nvec, thrcof, &
                               ndim, ier)
             integer intent(in) :: two_l2(nvec), two_l3(nvec)

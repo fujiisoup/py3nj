@@ -15,8 +15,8 @@ else:
     raise RuntimeError("Unable to find version string in %s." % (VERSIONFILE,))
 
 # fortran extension
-ext = Extension(name='_wigner',
-                sources=['fortran/_wigner.pyf', 'fortran/wigner.f90',
+ext = Extension(name='py3nj._wigner',
+                sources=['fortran/_wigner.pyf', 'fortran/drc.f90',
                          'fortran/xermsg.f', 'fortran/d1mach.f',
                          'fortran/drc3jj.f',
                          'fortran/drc6j.f'])
@@ -26,7 +26,7 @@ setup(name='py3nj',
       version=verstr,
       author="Keisuke Fujii",
       author_email="fujiisoup@gmail.com",
-      description=("scipy compatible wigner 3n-J symbols"),
+      description=("numpy compatible wigner 3n-J symbols"),
       license="BSD 3-clause",
       keywords="atomic physics, quantum physics",
       url="http://github.com/fujiisoup/py3nj",
