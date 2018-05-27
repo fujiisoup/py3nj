@@ -5,7 +5,7 @@ __pycache__
 .pytest_cache
 
 # install
-gfac.egg-info
+py3nj.egg-info
 
 # executeable file
 *.o
