@@ -1,0 +1,16 @@
+# caches
+__pycache__
+.cache
+.benchmarks
+.pytest_cache
+
+# install
+gfac.egg-info
+
+# executeable file
+*.o
+*.o.d
+*.so
+
+# build directory
+build

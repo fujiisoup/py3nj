@@ -1,0 +1,27 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module _wigner
+    interface
+        subroutine drc3jj_int(two_l2, two_l3, two_m2, two_m3, l1min, l1max, &
+                              thrcof, ndim, ier)
+            integer intent(in) :: two_l2, two_l3, two_m2, two_m3
+            integer intent(out) :: l1min, l1max
+            double precision dimension(ndim), intent(out),depend(ndim) :: thrcof
+            integer intent(in) :: ndim
+            integer intent(out):: ier
+        end subroutine drc3jj_int
+
+        subroutine drc3jj_vec(two_l2, two_l3, two_m2, two_m3, nvec, thrcof, &
+                              ndim, ier)
+            integer intent(in) :: two_l2(nvec), two_l3(nvec)
+            integer intent(in) :: two_m2(nvec), two_m3(nvec)
+            integer intent(in) :: nvec, ndim
+            double precision dimension(nvec, ndim), intent(out),depend(nvec,ndim) :: thrcof
+            integer intent(out):: ier
+        end subroutine drc3jj_vec
+    end interface
+end python module _wigner
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/
