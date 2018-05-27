@@ -35,5 +35,5 @@ install:
   - pip install --no-deps -e .
 
 script:
-  - python -OO -c "import gfac"
+  - python -OO -c "import py3nj"
   - py.test tests

@@ -3,4 +3,3 @@ dependencies:
   - python=2.7
   - pytest
   - numpy
-  - xarray
