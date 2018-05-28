@@ -29,6 +29,15 @@ python module _wigner
             double precision dimension(nvec, ndim), intent(out),depend(nvec,ndim) :: thrcof
             integer intent(out):: ier
         end subroutine drc3jj_vec
+
+        subroutine drc6j_vec(two_l2, two_l3, two_l4, two_l5, two_l6, nvec, &
+                             sixcof, ndim, ier)
+            integer intent(in) :: two_l2(nvec), two_l3(nvec), two_l4(nvec), &
+                                  two_l5(nvec), two_l6(nvec)
+            integer intent(in) :: nvec, ndim
+            double precision dimension(nvec, ndim), intent(out),depend(nvec,ndim) :: sixcof
+            integer intent(out):: ier
+        end subroutine drc6j_vec
     end interface
 end python module _wigner
 

@@ -30,7 +30,6 @@ subroutine drc6j_int(two_l2, two_l3, two_l4, two_l5, two_l6, l1min, l1max, &
 end subroutine drc6j_int
 
 
-
 subroutine drc3jj_vec(two_l2, two_l3, two_m2, two_m3, nvec, thrcof, ndim, ier)
   ! evaluate wigner's 3j symbol with vectorized input
   implicit none
@@ -119,3 +118,97 @@ subroutine drc3jj_vec(two_l2, two_l3, two_m2, two_m3, nvec, thrcof, ndim, ier)
 
   return
 end subroutine drc3jj_vec
+
+
+subroutine drc6j_vec(two_l2, two_l3, two_l4, two_l5, two_l6, nvec, sixcof, &
+                     ndim, ier)
+  ! evaluate wigner's 3j symbol with vectorized input
+  implicit none
+  integer nvec, ier, ndim
+  integer two_l2(nvec), two_l3(nvec), two_l4(nvec), two_l5(nvec), two_l6(nvec)
+  integer l1min, l1max
+  double precision, dimension(nvec, ndim) :: sixcof
+  double precision, dimension(nvec, ndim) :: sixcof_tmp
+  double precision l2(nvec), l3(nvec), l4(nvec), l5(nvec), l6(nvec)
+  integer :: indexes(nvec)
+  integer :: indexes_max
+  integer, dimension(nvec) :: ier_v
+  double precision :: l1min_d(nvec), l1max_d(nvec)
+  integer i, j, dl
+  logical is_new
+
+  indexes_max = 0
+  indexes(:) = -1
+  l1min_d(:) = 0
+  l1max_d(:) = 0
+  sixcof(:, :) = 0
+  sixcof_tmp(:, :) = 0
+  ier = 0
+
+  do i=1, nvec
+    is_new = .true.
+    ! if invalid, skip it
+    if (mod(two_l2(i)+two_l3(i)+two_l5(i)+two_l6(i), 2)==1) then
+      is_new = .false.
+    elseif (mod(two_l2(i)+two_l4(i)+two_l6(i), 2)==1) then
+      is_new = .false.
+    elseif (abs(two_l2(i)-two_l4(i)) > two_l6(i)) then
+      is_new = .false.
+    elseif (two_l6(i) > two_l2(i) + two_l4(i)) then
+      is_new = .false.
+    else
+      do j=1, i-1
+        ! if there is duplicate input, we skip this
+        if (two_l2(i)==two_l2(j) .and. two_l3(i)==two_l3(j)) then
+          if (two_l4(i)==two_l4(j) .and. two_l5(i)==two_l5(j)) then
+            if (two_l6(i)==two_l6(j)) then
+              indexes(i) = indexes(j)
+              is_new=.false.
+              exit
+            endif
+          endif
+        endif
+      enddo
+    endif
+    if (is_new) then
+      ! new data
+      indexes_max=indexes_max+1
+      l2(indexes_max) = 0.5D0 * two_l2(i)
+      l3(indexes_max) = 0.5D0 * two_l3(i)
+      l4(indexes_max) = 0.5D0 * two_l4(i)
+      l5(indexes_max) = 0.5D0 * two_l5(i)
+      l6(indexes_max) = 0.5D0 * two_l6(i)
+      indexes(i)=indexes_max
+    endif
+  enddo
+
+  ! core part
+  !$omp parallel
+  !$omp do
+  do i=1, indexes_max
+    call drc6j(l2(i), l3(i), l4(i), l5(i), l6(i), l1min_d(i), l1max_d(i), &
+               sixcof_tmp(i, :), ndim, ier_v(i))
+  enddo
+  !$omp end do
+  !$omp end parallel
+  ! end of core part
+
+  do i=1, indexes_max
+    if (ier_v(i) > 0) then
+      ier = ier_v(i)
+      exit
+    end if
+  end do
+
+  do i=1, nvec
+    if (indexes(i) .ge. 0) then
+      l1min = nint(real(l1min_d(indexes(i))) * 2)
+      l1max = nint(real(l1max_d(indexes(i))) * 2)
+      if (l1max > ndim) l1max = ndim
+      dl = (l1max-l1min)/2+1
+      sixcof(i, l1min+1:l1max+1:2) = sixcof_tmp(indexes(i), :dl)
+    endif
+  enddo
+
+  return
+end subroutine drc6j_vec

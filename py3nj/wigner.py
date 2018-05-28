@@ -51,6 +51,48 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
     return thrcof.reshape(shape)
 
 
+def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
+    """
+    Calculate wigner 6j symbol
+    (L1 L2 L3)
+    (L4 L5 L6)
+
+    Parameters
+    ----------
+    two_l1: array of integers
+    two_l2: array of integers
+    two_l3: array of integers
+    two_l4: array of integers
+    two_l5: array of integers
+    two_l6: array of integers
+        Since L1, ..., L6 should be integers or half integers, two_l1 (which
+        means 2 x L1) should be all integers.
+
+    Returns
+    -------
+    threej: array
+        The value of 6J symbol with the same shape of the arguments.
+    """
+    two_l1, two_l2, two_l3, two_l4, two_l5, two_l6 = int_broadcast(
+        two_l1, two_l2, two_l3, two_l4, two_l5, two_l6)
+
+    if (two_l1 < 0).any():
+        raise ValueError('Some of l values are negative')
+
+    l, sixcof = drc6j(two_l2, two_l3, two_l4, two_l5, two_l6)
+
+    l1max = sixcof.shape[-1]
+    shape = sixcof.shape[:-1]
+
+    two_l1 = two_l1.ravel()
+    valid = two_l1 < l1max
+
+    if shape == ():  # scale case
+        return np.where(valid, sixcof[two_l1], 0.0)[0]
+    sixcof = np.where(valid, sixcof[np.arange(len(two_l1)), two_l1], 0.0)
+    return sixcof.reshape(shape)
+
+
 def drc3jj(two_l2, two_l3, two_m2, two_m3):
     """
     Calculate Wigner's 3j symbol
@@ -114,7 +156,7 @@ def _drc3jj(two_l2, two_l3, two_m2, two_m3):
     return np.arange(l1min, l1min + ndim * 2, 2), thrcof
 
 
-def drc6j(two_l2, two_l3, two_m2, two_m3):
+def drc6j(two_l2, two_l3, two_l4, two_l5, two_l6):
     """
     Calculate Wigner's 6j symbol
     (L1 L2 L3)
@@ -141,19 +183,15 @@ def drc6j(two_l2, two_l3, two_m2, two_m3):
     two_l2, two_l3, two_l4, two_l5, two_l6 = int_broadcast(
         two_l2, two_l3, two_l4, two_l5, two_l6)
 
-    if (two_l2 < 0).any() or (two_l3 < 0).any():
-        raise ValueError('Some of l values are negative.')
-    if (two_l2 < np.abs(two_m2)).any() or (two_l3 < np.abs(two_m3)).any():
-        raise ValueError('Some of m values are larger than l.')
-
     shape = two_l2.shape
     l1max = int(np.max(two_l2 + two_l3) + 1)
 
-    thrcof, ier = _wigner.drc3jj_vec(
+    sixcof, ier = _wigner.drc6j_vec(
         two_l2=two_l2.ravel(), two_l3=two_l3.ravel(),
-        two_m2=two_m2.ravel(), two_m3=two_m3.ravel(),
+        two_l4=two_l4.ravel(), two_l5=two_l5.ravel(),
+        two_l6=two_l6.ravel(),
         nvec=two_l2.size, ndim=l1max)
-    return np.arange(l1max), thrcof.reshape(shape + (l1max, ))
+    return np.arange(l1max), sixcof.reshape(shape + (l1max, ))
 
 
 def _drc6j(two_l2, two_l3, two_l4, two_l5, two_l6):
@@ -166,14 +204,13 @@ def _drc6j(two_l2, two_l3, two_l4, two_l5, two_l6):
         two_l2, two_l3, two_l4, two_l5, two_l6, ndim)
 
     if ier == 1:
-        raise ValueError('Either L2.LT.ABS(M2) or L3.LT.ABS(M3).')
+        raise ValueError('L2+L3+L5+L6 and L2+L4+L6 must be integers')
     elif ier == 2:
-        raise ValueError('Either L2+ABS(M2) or L3+ABS(M3) non-integer.')
+        raise ValueError('ABS(L2-L4).LE.L6.LE.L2+L4 must be satisfied.')
     elif ier == 3:
-        raise ValueError('L1MAX-L1MIN not an integer.')
+        raise ValueError('ABS(L4-L5).LE.L3.LE.L4+L5 must be satisfied.')
     elif ier == 4:
-        raise ValueError('L1MAX less than L1MIN.')
-    elif ier == 5:
-        raise ValueError('NDIM less than L1MAX-L1MIN+1.')
+        raise ValueError('L1MAX-L1MIN must be a non-negative integer, '
+                         'where L1MAX=MIN(L2+L3,L5+L6) and'  'L1MIN=MAX(ABS(L2-L3),ABS(L5-L6)).')
 
     return np.arange(l1min, l1min + ndim * 2, 2), sixcof

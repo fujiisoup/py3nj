@@ -1,2 +1,2 @@
-from .wigner import wigner3j
+from .wigner import wigner3j, wigner6j
 from . import wigner
