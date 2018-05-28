@@ -16,9 +16,9 @@ def clebsch_gordan(two_j1, two_j2, two_j3, two_m1, two_m2, two_m3):
     two_j1, two_j2, two_j3, two_m1, two_m2, two_m3 = int_broadcast(
         two_j1, two_j2, two_j3, two_m1, two_m2, two_m3)
 
-    phase = ((two_j1 - two_j2 + two_m3) % 2 + 1) *2 - 2
-    return phase * np.sqrt(two_j3 + 1) * wigner3j(two_j1, two_j2, two_j3,
-                                                  two_m1, two_m2, two_m3)
+    phase = (two_j1 - two_j2 + two_m3) % 4 - 1
+    return -phase * np.sqrt(two_j3 + 1) * wigner3j(two_j1, two_j2, two_j3,
+                                                  two_m1, two_m2, -two_m3)
 
 
 def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
@@ -194,6 +194,10 @@ def drc6j(two_l2, two_l3, two_l4, two_l5, two_l6):
     """
     two_l2, two_l3, two_l4, two_l5, two_l6 = int_broadcast(
         two_l2, two_l3, two_l4, two_l5, two_l6)
+
+    if ((two_l2 < 0).any() or (two_l3 < 0).any() or (two_l4 < 0).any() or
+            (two_l4 < 0).any() or (two_l5 < 0).any()):
+        raise ValueError('Some of l values are negative')
 
     shape = two_l2.shape
     l1max = int(np.max(two_l2 + two_l3) + 1)

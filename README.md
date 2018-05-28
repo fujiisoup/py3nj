@@ -8,7 +8,10 @@ the calculation is vectorized automatically.
 
 Currently, 9j-symbols are not yet implemented.
 
-## Usage
+## Basic Usage
+
+Convenient function is `py3nj.wigner3j`, `py3nj.wigner6j`, and `py3nj.clebsch_gordan`.
+
 ```python
 >>> # Calculate (0/2, 1/2, 1/2,
 ... #           (0/2, 1/2,-1/2)
@@ -26,6 +29,16 @@ array([0.70710678, 0.        ])
 >>> py3nj.wigner6j([2, 1], [1, 2], [1, 1],
 ...                [1, 2], [2, 1], [0, 0])
 array([0.40824829, 0.40824829])
+
+>>> Clebsch Gordanh coefficient
+>>> py3nj.clebsch_gordan(2, 2, 4,
+...                      2, 0, 2)
+0.7071067811865475
+
+>>> # Vectorized calcluation of C.G. coef
+... py3nj.clebsch_gordan([2, 1], [2, 1], [4, 0],
+...                      [2,-1], [0, 1], [2, 0])
+array([ 0.70710678, -0.70710678])
 ```
 
 
