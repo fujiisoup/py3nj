@@ -13,8 +13,8 @@ def clebsch_gordan(two_j1, two_j2, two_j3, two_m1, two_m2, two_m3):
     """ Calulate Clebsch-Gordan coefficient
     <j1 m1, j2 m2 | j3 m3>
     """
-    two_l1, two_l2, two_l3, two_m1, two_m2, two_m3 = int_broadcast(
-        two_l1, two_l2, two_l3, two_m1, two_m2, two_m3)
+    two_j1, two_j2, two_j3, two_m1, two_m2, two_m3 = int_broadcast(
+        two_j1, two_j2, two_j3, two_m1, two_m2, two_m3)
 
     phase = ((two_j1 - two_j2 + two_m3) % 2 + 1) *2 - 2
     return phase * np.sqrt(two_j3 + 1) * wigner3j(two_j1, two_j2, two_j3,

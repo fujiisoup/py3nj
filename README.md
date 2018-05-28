@@ -6,7 +6,7 @@ A small library to calcluate wigner's 3j-, 6j- and 9j- symbols.
 This library is designed to be compatible with numpy's np.ndarray and
 the calculation is vectorized automatically.
 
-Currently, only 3j-symbol and 6j-symbol are implemented.
+Currently, 9j-symbols are not yet implemented.
 
 ## Usage
 ```python
