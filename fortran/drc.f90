@@ -60,8 +60,6 @@ subroutine drc3jj_vec(two_l2, two_l3, two_m2, two_m3, nvec, thrcof, ndim, ier)
       is_new = .false.
     elseif (mod(two_l3(i)+abs(two_m3(i)), 2)==1) then
       is_new = .false.
-    elseif (mod(two_l2(i)+two_l3(i), 2)==1) then
-      is_new = .false.
     elseif (max(abs(two_l2(i)-two_l3(i)), abs(two_m2(i) + two_m3(i))) &
             > (two_l2(i) + two_l3(i))) then
       is_new = .false.

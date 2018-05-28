@@ -8,8 +8,16 @@ rng = np.random.RandomState(0)
 THREE_J = (
     ((1, 1, 0, 0, 0, 0), -np.sqrt(1.0/3)),
     ((0, 1, 1, 0, 0, 0), -np.sqrt(1.0/3)),
+    ((2, 2, 0, 0, 0, 0),  np.sqrt(1.0/5)),
+    ((2, 1, 1, 0, 0, 0),  np.sqrt(2.0/15)),
     ((2, 1, 1, 0, 0, 0), np.sqrt(2.0/15)),
     ((0, 1, 1, 0,-1, 1), np.sqrt(1.0/3)),
+    ((0.5, 0.5, 1.0, -0.5, 0.5, 0), np.sqrt(1.0/6.0)),
+    ((0.5, 0.5, 1.0,  0.5,-0.5, 0), np.sqrt(1.0/6.0)),
+    ((0.5, 0.5, 0.0,  0.5,-0.5, 0), np.sqrt(1.0/2.0)),
+    ((0.5, 0.5, 0.0, -0.5, 0.5, 0), -np.sqrt(1.0/2.0)),
+    ((1, 2, 3, 0, 2, -2), -np.sqrt(1.0/21)),
+    ((1, 2, 3, 1, 2, -3), np.sqrt(1.0/7)),
 )
 
 
@@ -95,11 +103,12 @@ def test_wigner3j(half_integer):
 def test_wigner3j_value():
     # scalar test
     for three_j, expected in THREE_J:
-        three_j = np.array(three_j) * 2
+        three_j = (np.array(three_j) * 2).astype(int)
         actual = wigner3j(*three_j)
+        print(three_j)
         assert np.allclose(actual, expected)
     # test vector
-    three_j = np.array([thr for thr, _ in THREE_J]).T * 2
+    three_j = (np.array([thr for thr, _ in THREE_J]).T * 2).astype(int)
     expected = np.array([value for _, value in THREE_J]).T
     actual = wigner3j(*three_j)
     assert np.allclose(actual, expected)

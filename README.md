@@ -43,7 +43,7 @@ See http://www.netlib.org/slatec/ for the details.
 
 ## License
 
-Copyright 2014-2017, xarray Developers
+Copyright 2018, py3nj Developers
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
