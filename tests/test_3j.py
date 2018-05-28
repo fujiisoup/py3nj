@@ -15,9 +15,10 @@ THREE_J = (
 
 def test_drc3jj():
     for three_j, result in THREE_J:
-        three_j = np.array(three_j) * 2
+        three_j = (np.array(three_j) * 2).astype(int)
         l, thrcof = wigner._drc3jj(three_j[1], three_j[2], three_j[4],
                                    three_j[5])
+        assert three_j[0] in l
         assert np.allclose(thrcof[l == three_j[0]], result)
 
 

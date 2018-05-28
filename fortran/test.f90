@@ -4,6 +4,7 @@ program main
   call test_drc3jj_int
   call test_drc3jj_vec
   call test_drc3jj_vec2
+  call test_drc6j
 end program main
 
 
@@ -84,3 +85,19 @@ subroutine test_drc3jj_vec2
     print *, ier, i
   enddo
 end subroutine test_drc3jj_vec2
+
+subroutine test_drc6j
+  implicit none
+  double precision l2, l3, l4, l5, l6, l1min, l1max
+  integer ier, ndim
+  double precision sixcof(10)
+  ndim = 10
+  l2 = 2.0
+  l3 = 2.0
+  l4 = 2.0
+  l5 = 2.0
+  l6 = 2.0
+  call drc6j(l2, l3, l4, l5, l6, l1min, l1max, sixcof, ndim, ier)
+  print *, l1min, l1max, ier
+  print *, sixcof
+end subroutine test_drc6j
