@@ -49,8 +49,7 @@ array([ 0.70710678, -0.70710678])
 ## Install
 
 ```
-python setup.py build
-python setup.py install
+pip install py3nj
 ```
 
 ## Acknowledgement
