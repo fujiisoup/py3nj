@@ -12,6 +12,23 @@ def int_broadcast(*args):
 def clebsch_gordan(two_j1, two_j2, two_j3, two_m1, two_m2, two_m3):
     """ Calulate Clebsch-Gordan coefficient
     <j1 m1, j2 m2 | j3 m3>
+
+    Parameters
+    ----------
+    two_j1: array of integers
+    two_j2: array of integers
+    two_j3: array of integers
+    two_m1: array of integers
+    two_m2: array of integers
+    two_m3: array of integers
+        Since j1, ..., m3 should be integers or half integers, two_j1 (which
+        means 2 x j1) should be all integers.
+
+    Returns
+    -------
+    clebch-gordan: array
+        The value of Clebsch Gordan coefficients, with the same size of the
+        arguments.
     """
     two_j1, two_j2, two_j3, two_m1, two_m2, two_m3 = int_broadcast(
         two_j1, two_j2, two_j3, two_m1, two_m2, two_m3)

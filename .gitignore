@@ -15,3 +15,7 @@ py3nj.egg-info
 # build directory
 build
 dist
+
+# docs
+doc/_build
+doc/generated

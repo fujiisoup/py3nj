@@ -8,7 +8,8 @@ its calculation is vectorized automatically.
 
 ## Basic Usage
 
-Convenient function is `py3nj.wigner3j`, `py3nj.wigner6j`, and `py3nj.clebsch_gordan`.
+The basic interfaces are `py3nj.wigner3j`, `py3nj.wigner6j`,
+`py3nj.wigner9j`, and `py3nj.clebsch_gordan`.
 
 ```python
 >>> # Calculate (0/2, 1/2, 1/2,
@@ -44,7 +45,6 @@ array([0.05555556, 0.03651484])
 ...                      [2,-1], [0, 1], [2, 0])
 array([ 0.70710678, -0.70710678])
 ```
-
 
 ## Install
 
