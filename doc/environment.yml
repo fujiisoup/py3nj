@@ -5,4 +5,8 @@ channels:
 dependencies:
   - python=3.6
   - numpy=1.14
+  - numpydoc
+  - matplotlib=2.1.2
+  - sphinx=1.5
+  - sphinx-gallery
   - gcc
