@@ -105,6 +105,54 @@ def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
     return sixcof.reshape(shape)
 
 
+def wigner9j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6,
+             two_l7, two_l8, two_l9):
+    """
+    Calculate wigner 9j symbol
+    (L1 L2 L3)
+    (L4 L5 L6)
+    (L7 L8 L9)
+
+    defined as
+              2x        (a b c) (d e f) (g h j)
+    sum_x (-1)   (2x+1) (f j x) (b x h) (x a d)
+
+              2x        (x f b) (x h b) (x a j)
+    sum_x (-1)   (2x+1) (c a j) (e f d) (g h d)
+
+
+    Parameters
+    ----------
+    two_l1: array of integers
+    two_l2: array of integers
+    two_l3: array of integers
+    two_l4: array of integers
+    two_l5: array of integers
+    two_l6: array of integers
+    two_l7: array of integers
+    two_l8: array of integers
+    two_l9: array of integers
+        Since L1, ..., L9 should be integers or half integers, two_l1 (which
+        means 2 x L1) should be all integers.
+
+    Returns
+    -------
+    threej: array
+        The value of 9J symbol with the same shape of the arguments.
+    """
+    (two_la, two_lb, two_lc, two_ld, two_le, two_lf,
+     two_lg, two_lh, two_lj) = int_broadcast(
+        two_l1, two_l2, two_l3, two_l4, two_l5, two_l6, two_l7, two_l8, two_l9)
+
+    # calculat summation directory from 6-j symbol
+    x, sixj = drc6j(np.stack([two_lf, two_lh, two_la]),
+                    np.stack([two_lb, two_lb, two_lj]),
+                    np.stack([two_lc, two_le, two_lg]),
+                    np.stack([two_la, two_lf, two_lh]),
+                    np.stack([two_lj, two_ld, two_ld]))
+    neg_phase = (2 * x) % 4 - 1
+    return np.sum(-neg_phase * (x + 1) * sixj[0] * sixj[1] * sixj[2], axis=-1)
+
 def drc3jj(two_l2, two_l3, two_m2, two_m3):
     """
     Calculate Wigner's 3j symbol

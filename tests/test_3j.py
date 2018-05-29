@@ -105,7 +105,6 @@ def test_wigner3j_value():
     for three_j, expected in THREE_J:
         three_j = (np.array(three_j) * 2).astype(int)
         actual = wigner3j(*three_j)
-        print(three_j)
         assert np.allclose(actual, expected)
     # test vector
     three_j = (np.array([thr for thr, _ in THREE_J]).T * 2).astype(int)

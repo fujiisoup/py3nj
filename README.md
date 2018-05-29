@@ -2,11 +2,9 @@
 
 ![travis](https://travis-ci.org/fujiisoup/py3nj.svg?branch=master)
 
-A small library to calcluate wigner's 3j-, 6j- and 9j- symbols.
-This library is designed to be compatible with numpy's np.ndarray and
-the calculation is vectorized automatically.
-
-Currently, 9j-symbols are not yet implemented.
+A small python library to calcluate wigner's 3j-, 6j- and 9j- symbols.
+`py3nj` is designed to be compatible with numpy's np.ndarray and
+its calculation is vectorized automatically.
 
 ## Basic Usage
 
@@ -29,6 +27,12 @@ array([0.70710678, 0.        ])
 >>> py3nj.wigner6j([2, 1], [1, 2], [1, 1],
 ...                [1, 2], [2, 1], [0, 0])
 array([0.40824829, 0.40824829])
+
+>>> # 9J symbol
+>>> py3nj.wigner9j([2, 2], [4, 4], [2, 2],
+...                [2, 4], [2, 6], [2, 2],
+...                [2, 2], [2, 4], [2, 2])
+array([0.05555556, 0.03651484])
 
 >>> Clebsch Gordanh coefficient
 >>> py3nj.clebsch_gordan(2, 2, 4,

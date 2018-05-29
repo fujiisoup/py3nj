@@ -19,7 +19,8 @@ ext = Extension(name='py3nj._wigner',
                 sources=['fortran/_wigner.pyf', 'fortran/drc.f90',
                          'fortran/xermsg.f', 'fortran/d1mach.f',
                          'fortran/drc3jj.f',
-                         'fortran/drc6j.f'])
+                         'fortran/drc6j.f'],
+                extra_compile_args=['-fopenmp'])
 
 # module
 setup(name='py3nj',
@@ -34,7 +35,6 @@ setup(name='py3nj',
       package_dir={'py3nj': 'py3nj'},
       py_modules=['py3nj.__init__'],
       ext_modules=[ext],
-      extra_compile_args=['-fopenmp'],
       classifiers=['License :: OSI Approved :: BSD License',
                    'Natural Language :: English',
                    'Operating System :: MacOS :: MacOS X',
