@@ -10,6 +10,19 @@ but it is designed to highly compatible to numpy's nd-array,
 i.e. the automatic vectorization is supported.
 
 
+Installing
+----------
+
+py3nj is available on pypi.
+To install
+
+```bash
+pip install py3nj
+```
+
+You may need fortran compiler installed in your environment.
+
+
 Documentation
 -------------
 
@@ -40,6 +53,6 @@ Documentation
 License
 -------
 
-xr-scipy is available under the open source `Apache License`__.
+py3nj is available under the open source `Apache License`__.
 
 __ http://www.apache.org/licenses/LICENSE-2.0.html
