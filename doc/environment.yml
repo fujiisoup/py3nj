@@ -1,0 +1,7 @@
+name: xarray-docs
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.6
+  - numpy=1.14
