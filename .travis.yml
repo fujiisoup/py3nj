@@ -1,5 +1,5 @@
 # Based on http://conda.pydata.org/docs/travis.html
-language: python
+language: minimal
 sudo: false # use container based build
 notifications:
   email: false
@@ -10,10 +10,9 @@ branches:
 matrix:
   fast_finish: true
   include:
-  - python: 2.7
-    env: CONDA_ENV=py27
-  - python: 3.6
-    env: CONDA_ENV=py36
+  - env: CONDA_ENV=py27
+  - env: CONDA_ENV=py36
+  - env: CONDA_ENV=py37
 
 before_install:
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
