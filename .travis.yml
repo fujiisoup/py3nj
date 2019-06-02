@@ -36,9 +36,9 @@ addons:
     - gfortran
 
 install:
-  - if [["$CONDA_ENV" == "gfortran7"]]; then
+  - if [[ "$CONDA_ENV" == "gfortran7" ]]; then
       sudo apt install gfortran-7 -y;
-      CONDA_ENV=py37
+      CONDA_ENV=py37;
     fi
   - conda env create -n test_env --file ci/requirements-$CONDA_ENV.yml
   - source activate test_env
