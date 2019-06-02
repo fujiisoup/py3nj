@@ -1,6 +1,6 @@
 # Based on http://conda.pydata.org/docs/travis.html
 language: minimal
-sudo: true  # use container based build
+sudo: false  # use container based build
 notifications:
   email: false
 branches:
@@ -10,12 +10,28 @@ branches:
 matrix:
   fast_finish: true
   include:
-  - env: CONDA_ENV=py27
-  - env: CONDA_ENV=py36
-  - env: CONDA_ENV=py37
-  - env: CONDA_ENV=gfortran7
+  - env:
+      - CONDA_ENV=py27
+      - MATRIX_EVAL=""
+  - env:
+      - CONDA_ENV=py36
+      - MATRIX_EVAL=""
+  - env:
+      - CONDA_ENV=py37
+      - MATRIX_EVAL=""
+  - addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - g++-7
+          - gfortran7
+      env:
+        - CONDA_ENV=py37
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
+  - eval "${MATRIX_EVAL}"
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
       wget http://repo.continuum.io/miniconda/Miniconda-3.16.0-Linux-x86_64.sh -O miniconda.sh;
     elif [[ "$TRAVIS_PYTHON_VERSION" == "3.7" ]]; then
@@ -36,12 +52,6 @@ addons:
     - gfortran
 
 install:
-  - if [[ "$CONDA_ENV" == "gfortran7" ]]; then
-      sudo apt-get install -y software-properties-common -y;
-      sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y;
-      sudo apt install gcc-7 g++-7 gfortran-7 -y;
-      CONDA_ENV=py37;
-    fi
   - conda env create -n test_env --file ci/requirements-$CONDA_ENV.yml
   - source activate test_env
   - conda list
