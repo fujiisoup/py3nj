@@ -15,19 +15,19 @@ matrix:
         packages:
           - gfortran
       env:
-        - CONDA_ENV=py27
+        - CONDA_ENV='py27'
   - addons:
       apt:
         packages:
           - gfortran
       env:
-      - CONDA_ENV=py36
+      - CONDA_ENV='py36'
   - addons:
       apt:
         packages:
           - gfortran
       env:
-      - CONDA_ENV=py37
+      - CONDA_ENV='py37'
   - addons:
       compiler: gcc
       addons: &gcc7
@@ -44,7 +44,7 @@ matrix:
         - CXX_COMPILER='g++-7'
         - C_COMPILER='gcc-7'
         - Fortran_COMPILER='gfortran-7'
-        - CONDA_ENV=py37
+        - CONDA_ENV='py37'
 
 before_install:
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
