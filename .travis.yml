@@ -40,9 +40,6 @@ matrix:
           - gfortran-7
           - swig
     env:
-      - CXX_COMPILER='g++-7'
-      - C_COMPILER='gcc-7'
-      - Fortran_COMPILER='gfortran-7'
       - CONDA_ENV='py37'
 
 before_install:
@@ -61,7 +58,6 @@ before_install:
   - conda info -a
 
 install:
-  - echo $CONDA_ENV
   - conda env create -n test_env --file ci/requirements-$CONDA_ENV.yml
   - source activate test_env
   - conda list
