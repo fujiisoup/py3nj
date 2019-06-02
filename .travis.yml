@@ -1,6 +1,6 @@
 # Based on http://conda.pydata.org/docs/travis.html
 language: minimal
-sudo: false # use container based build
+sudo: true  # use container based build
 notifications:
   email: false
 branches:
@@ -13,6 +13,7 @@ matrix:
   - env: CONDA_ENV=py27
   - env: CONDA_ENV=py36
   - env: CONDA_ENV=py37
+  - env: CONDA_ENV=gfortran7
 
 before_install:
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
@@ -35,6 +36,10 @@ addons:
     - gfortran
 
 install:
+  - if [["$CONDA_ENV" == gfortran7]]; then
+      sudo apt install gfortran-7 -y;
+      CONDA_ENV=py37
+    fi
   - conda env create -n test_env --file ci/requirements-$CONDA_ENV.yml
   - source activate test_env
   - conda list
