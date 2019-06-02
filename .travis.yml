@@ -10,11 +10,23 @@ branches:
 matrix:
   fast_finish: true
   include:
-  - env:
-      - CONDA_ENV=py27
-  - env:
+  - addons:
+      apt:
+        packages:
+          - gfortran
+      env:
+        - CONDA_ENV=py27
+  - addons:
+      apt:
+        packages:
+          - gfortran
+      env:
       - CONDA_ENV=py36
-  - env:
+  - addons:
+      apt:
+        packages:
+          - gfortran
+      env:
       - CONDA_ENV=py37
   - addons:
       compiler: gcc
@@ -48,11 +60,6 @@ before_install:
   - conda config --set always_yes yes --set changeps1 no --set show_channel_urls true
   - conda update -q conda
   - conda info -a
-
-addons:
-  apt:
-    packages:
-    - gfortran
 
 install:
   - conda env create -n test_env --file ci/requirements-$CONDA_ENV.yml
