@@ -21,13 +21,13 @@ matrix:
         packages:
           - gfortran
       env:
-      - CONDA_ENV='py36'
+        - CONDA_ENV='py36'
   - addons:
       apt:
         packages:
           - gfortran
       env:
-      - CONDA_ENV='py37'
+        - CONDA_ENV='py37'
   - addons:
       compiler: gcc
       addons: &gcc7
@@ -62,6 +62,7 @@ before_install:
   - conda info -a
 
 install:
+  - echo $CONDA_ENV
   - conda env create -n test_env --file ci/requirements-$CONDA_ENV.yml
   - source activate test_env
   - conda list
