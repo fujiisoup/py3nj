@@ -12,26 +12,29 @@ matrix:
   include:
   - env:
       - CONDA_ENV=py27
-      - MATRIX_EVAL=""
   - env:
       - CONDA_ENV=py36
-      - MATRIX_EVAL=""
   - env:
       - CONDA_ENV=py37
-      - MATRIX_EVAL=""
   - addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-7
-          - gfortran7
+      compiler: gcc
+      addons: &gcc7
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - cmake3
+            - g++-7
+            - gcc-7
+            - gfortran-7
+            - swig
       env:
+        - CXX_COMPILER='g++-7'
+        - C_COMPILER='gcc-7'
+        - Fortran_COMPILER='gfortran-7'
         - CONDA_ENV=py37
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
-  - eval "${MATRIX_EVAL}"
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
       wget http://repo.continuum.io/miniconda/Miniconda-3.16.0-Linux-x86_64.sh -O miniconda.sh;
     elif [[ "$TRAVIS_PYTHON_VERSION" == "3.7" ]]; then
