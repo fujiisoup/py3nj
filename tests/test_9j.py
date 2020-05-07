@@ -32,3 +32,10 @@ def test_wigner9j():
     expected = np.array([value for _, value in NINE_J]).T
     actual = wigner9j(*nine_j)
     assert np.allclose(actual, expected)
+
+
+def test_issue2():
+  # https://github.com/fujiisoup/py3nj/issues/2
+  actual = wigner9j(0, 0, 0, 2 * 1, 0, 2 * 1, 2 * 1, 0, 2 * 1)
+  expected = 1.0 / 3.0
+  assert np.allclose(actual, expected)

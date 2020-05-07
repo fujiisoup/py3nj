@@ -162,11 +162,11 @@ def wigner9j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6,
         two_l1, two_l2, two_l3, two_l4, two_l5, two_l6, two_l7, two_l8, two_l9)
 
     # calculat summation directory from 6-j symbol
-    x, sixj = drc6j(np.stack([two_lf, two_lh, two_la]),
-                    np.stack([two_lb, two_lb, two_lj]),
+    x, sixj = drc6j(np.stack([two_lf, two_lb, two_la]),
+                    np.stack([two_lb, two_lf, two_lj]),
                     np.stack([two_lc, two_le, two_lg]),
-                    np.stack([two_la, two_lf, two_lh]),
-                    np.stack([two_lj, two_ld, two_ld]))
+                    np.stack([two_la, two_ld, two_lh]),
+                    np.stack([two_lj, two_lh, two_ld]))
     neg_phase = (2 * x) % 4 - 1
     return np.sum(-neg_phase * (x + 1) * sixj[0] * sixj[1] * sixj[2], axis=-1)
 
