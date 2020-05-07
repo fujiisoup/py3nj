@@ -20,7 +20,7 @@ ext = Extension(name='py3nj._wigner',
                          'fortran/xermsg.f', 'fortran/d1mach.f',
                          'fortran/drc3jj.f',
                          'fortran/drc6j.f'],
-                extra_compile_args=['-fopenmp'])
+                extra_compile_args=['-fopenmp', '-nostartfiles'])
 
 # module
 setup(name='py3nj',
@@ -41,5 +41,6 @@ setup(name='py3nj',
                    'Operating System :: Microsoft :: Windows',
                    'Operating System :: POSIX :: Linux',
                    'Programming Language :: Python :: 3.6',
+                   'Programming Language :: Python :: 3.7',
                    'Topic :: Scientific/Engineering :: Physics']
       )
