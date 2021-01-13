@@ -74,7 +74,9 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
     two_l1 = two_l1.ravel()
     valid = (two_l1 < l1max) * ((two_m1 + two_m2 + two_m3).ravel() == 0)
 
-    if shape == ():  # scale case
+    # temporary set the invalid l1 to the first value
+    two_l1 = np.where(valid, two_l1, 0)
+    if shape == ():  # scalar case
         return np.where(valid, thrcof[two_l1], 0.0)[0]
     thrcof = np.where(valid, thrcof[np.arange(len(two_l1)), two_l1], 0.0)
     return thrcof.reshape(shape)
@@ -116,6 +118,8 @@ def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
     two_l1 = two_l1.ravel()
     valid = two_l1 < l1max
 
+    # temporary set the invalid l1 to the first value
+    two_l1 = np.where(valid, two_l1, 0)
     if shape == ():  # scale case
         return np.where(valid, sixcof[two_l1], 0.0)[0]
     sixcof = np.where(valid, sixcof[np.arange(len(two_l1)), two_l1], 0.0)

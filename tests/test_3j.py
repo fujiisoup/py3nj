@@ -18,6 +18,7 @@ THREE_J = (
     ((0.5, 0.5, 0.0, -0.5, 0.5, 0), -np.sqrt(1.0/2.0)),
     ((1, 2, 3, 0, 2, -2), -np.sqrt(1.0/21)),
     ((1, 2, 3, 1, 2, -3), np.sqrt(1.0/7)),
+    ((4, 0, 0, 0, 0, 0), 0),
 )
 
 
@@ -26,8 +27,11 @@ def test_drc3jj():
         three_j = (np.array(three_j) * 2).astype(int)
         l, thrcof = wigner._drc3jj(three_j[1], three_j[2], three_j[4],
                                    three_j[5])
-        assert three_j[0] in l
-        assert np.allclose(thrcof[l == three_j[0]], result)
+        
+        if three_j[0] in l:
+            assert np.allclose(thrcof[l == three_j[0]], result)
+        else:
+            assert np.allclose(thrcof, 1)
 
 
 def test_invalid():
