@@ -6,17 +6,11 @@ from py3nj import wigner9j
 rng = np.random.RandomState(0)
 # precalculated 3j symbols. Input, result
 NINE_J = (
-    ((1, 1, 1,
-      1, 1, 1,
-      1, 1, 1), 0.0),
+    ((1, 1, 1, 1, 1, 1, 1, 1, 1), 0.0),
     #
-    ((1, 2, 1,
-      1, 1, 1,
-      1, 1, 1), 1.0 / 18),
+    ((1, 2, 1, 1, 1, 1, 1, 1, 1), 1.0 / 18),
     #
-    ((1, 2, 1,
-      2, 3, 1,
-      1, 2, 1), 1.0 / 5.0 * np.sqrt(1.0/30)),
+    ((1, 2, 1, 2, 3, 1, 1, 2, 1), 1.0 / 5.0 * np.sqrt(1.0 / 30)),
 )
 
 
@@ -35,7 +29,7 @@ def test_wigner9j():
 
 
 def test_issue2():
-  # https://github.com/fujiisoup/py3nj/issues/2
-  actual = wigner9j(0, 0, 0, 2 * 1, 0, 2 * 1, 2 * 1, 0, 2 * 1)
-  expected = 1.0 / 3.0
-  assert np.allclose(actual, expected)
+    # https://github.com/fujiisoup/py3nj/issues/2
+    actual = wigner9j(0, 0, 0, 2 * 1, 0, 2 * 1, 2 * 1, 0, 2 * 1)
+    expected = 1.0 / 3.0
+    assert np.allclose(actual, expected)

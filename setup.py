@@ -15,31 +15,40 @@ else:
     raise RuntimeError("Unable to find version string in %s." % (VERSIONFILE,))
 
 # fortran extension
-ext = Extension(name='py3nj._wigner',
-                sources=['fortran/_wigner.pyf', 'fortran/drc.f90',
-                         'fortran/xermsg.f', 'fortran/d1mach.f',
-                         'fortran/drc3jj.f',
-                         'fortran/drc6j.f'],
-                extra_compile_args=['-fopenmp'])
+ext = Extension(
+    name="py3nj._wigner",
+    sources=[
+        "fortran/_wigner.pyf",
+        "fortran/drc.f90",
+        "fortran/xermsg.f",
+        "fortran/d1mach.f",
+        "fortran/drc3jj.f",
+        "fortran/drc6j.f",
+    ],
+    extra_compile_args=["-fopenmp"],
+)
 
 # module
-setup(name='py3nj',
-      version=verstr,
-      author="Keisuke Fujii",
-      author_email="fujiisoup@gmail.com",
-      description=("numpy compatible wigner 3n-J symbols"),
-      license="BSD 3-clause",
-      keywords="atomic physics, quantum physics",
-      url="http://github.com/fujiisoup/py3nj",
-      packages=["py3nj", ],
-      package_dir={'py3nj': 'py3nj'},
-      py_modules=['py3nj.__init__'],
-      ext_modules=[ext],
-      classifiers=['License :: OSI Approved :: BSD License',
-                   'Natural Language :: English',
-                   'Operating System :: MacOS :: MacOS X',
-                   'Operating System :: Microsoft :: Windows',
-                   'Operating System :: POSIX :: Linux',
-                   'Programming Language :: Python :: 3.6',
-                   'Topic :: Scientific/Engineering :: Physics']
-      )
+setup(
+    name="py3nj",
+    version=verstr,
+    author="Keisuke Fujii",
+    author_email="fujiisoup@gmail.com",
+    description=("numpy compatible wigner 3n-J symbols"),
+    license="BSD 3-clause",
+    keywords="atomic physics, quantum physics",
+    url="http://github.com/fujiisoup/py3nj",
+    packages=["py3nj",],
+    package_dir={"py3nj": "py3nj"},
+    py_modules=["py3nj.__init__"],
+    ext_modules=[ext],
+    classifiers=[
+        "License :: OSI Approved :: BSD License",
+        "Natural Language :: English",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 3.6",
+        "Topic :: Scientific/Engineering :: Physics",
+    ],
+)
