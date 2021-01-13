@@ -4,8 +4,8 @@ from py3nj import _wigner
 
 def int_broadcast(*args):
     args = np.broadcast_arrays(*args)
-    if any(a.dtype.kind not in 'iu' for a in args):
-        raise ValueError('Argument should be integer.')
+    if any(a.dtype.kind not in "iu" for a in args):
+        raise ValueError("Argument should be integer.")
     return args
 
 
@@ -31,11 +31,15 @@ def clebsch_gordan(two_j1, two_j2, two_j3, two_m1, two_m2, two_m3):
         arguments.
     """
     two_j1, two_j2, two_j3, two_m1, two_m2, two_m3 = int_broadcast(
-        two_j1, two_j2, two_j3, two_m1, two_m2, two_m3)
+        two_j1, two_j2, two_j3, two_m1, two_m2, two_m3
+    )
 
     phase = (two_j1 - two_j2 + two_m3) % 4 - 1
-    return -phase * np.sqrt(two_j3 + 1) * wigner3j(two_j1, two_j2, two_j3,
-                                                  two_m1, two_m2, -two_m3)
+    return (
+        -phase
+        * np.sqrt(two_j3 + 1)
+        * wigner3j(two_j1, two_j2, two_j3, two_m1, two_m2, -two_m3)
+    )
 
 
 def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
@@ -61,10 +65,11 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
         The value of 3J symbol with the same shape of the arguments.
     """
     two_l1, two_l2, two_l3, two_m1, two_m2, two_m3 = int_broadcast(
-        two_l1, two_l2, two_l3, two_m1, two_m2, two_m3)
+        two_l1, two_l2, two_l3, two_m1, two_m2, two_m3
+    )
 
     if (two_l1 < 0).any():
-        raise ValueError('Some of l values are negative')
+        raise ValueError("Some of l values are negative")
 
     l, thrcof = drc3jj(two_l2, two_l3, two_m2, two_m3)
 
@@ -74,11 +79,11 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
     two_l1 = two_l1.ravel()
     valid = (two_l1 < l1max) * ((two_m1 + two_m2 + two_m3).ravel() == 0)
 
-    # temporary set the invalid l1 to the first value
+    # temporary set the invalid l1 to zero
     two_l1 = np.where(valid, two_l1, 0)
     if shape == ():  # scalar case
         return np.where(valid, thrcof[two_l1], 0.0)[0]
-    thrcof = np.where(valid, thrcof[np.arange(len(two_l1)), two_l1], 0.0)
+    thrcof = np.where(valid, thrcof[np.arange(len(two_l1)), ..., two_l1], 0.0)
     return thrcof.reshape(shape)
 
 
@@ -105,10 +110,11 @@ def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
         The value of 6J symbol with the same shape of the arguments.
     """
     two_l1, two_l2, two_l3, two_l4, two_l5, two_l6 = int_broadcast(
-        two_l1, two_l2, two_l3, two_l4, two_l5, two_l6)
+        two_l1, two_l2, two_l3, two_l4, two_l5, two_l6
+    )
 
     if (two_l1 < 0).any():
-        raise ValueError('Some of l values are negative')
+        raise ValueError("Some of l values are negative")
 
     l, sixcof = drc6j(two_l2, two_l3, two_l4, two_l5, two_l6)
 
@@ -122,12 +128,11 @@ def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
     two_l1 = np.where(valid, two_l1, 0)
     if shape == ():  # scale case
         return np.where(valid, sixcof[two_l1], 0.0)[0]
-    sixcof = np.where(valid, sixcof[np.arange(len(two_l1)), two_l1], 0.0)
+    sixcof = np.where(valid, sixcof[np.arange(len(two_l1)), ..., two_l1], 0.0)
     return sixcof.reshape(shape)
 
 
-def wigner9j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6,
-             two_l7, two_l8, two_l9):
+def wigner9j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6, two_l7, two_l8, two_l9):
     """
     Calculate wigner 9j symbol
     (L1 L2 L3)
@@ -161,18 +166,31 @@ def wigner9j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6,
     threej: array
         The value of 9J symbol with the same shape of the arguments.
     """
-    (two_la, two_lb, two_lc, two_ld, two_le, two_lf,
-     two_lg, two_lh, two_lj) = int_broadcast(
-        two_l1, two_l2, two_l3, two_l4, two_l5, two_l6, two_l7, two_l8, two_l9)
+    (
+        two_la,
+        two_lb,
+        two_lc,
+        two_ld,
+        two_le,
+        two_lf,
+        two_lg,
+        two_lh,
+        two_lj,
+    ) = int_broadcast(
+        two_l1, two_l2, two_l3, two_l4, two_l5, two_l6, two_l7, two_l8, two_l9
+    )
 
     # calculat summation directory from 6-j symbol
-    x, sixj = drc6j(np.stack([two_lf, two_lb, two_la]),
-                    np.stack([two_lb, two_lf, two_lj]),
-                    np.stack([two_lc, two_le, two_lg]),
-                    np.stack([two_la, two_ld, two_lh]),
-                    np.stack([two_lj, two_lh, two_ld]))
+    x, sixj = drc6j(
+        np.stack([two_lf, two_lb, two_la]),
+        np.stack([two_lb, two_lf, two_lj]),
+        np.stack([two_lc, two_le, two_lg]),
+        np.stack([two_la, two_ld, two_lh]),
+        np.stack([two_lj, two_lh, two_ld]),
+    )
     neg_phase = (2 * x) % 4 - 1
     return np.sum(-neg_phase * (x + 1) * sixj[0] * sixj[1] * sixj[2], axis=-1)
+
 
 def drc3jj(two_l2, two_l3, two_m2, two_m3):
     """
@@ -197,42 +215,44 @@ def drc3jj(two_l2, two_l3, two_m2, two_m3):
     threej: array, shape (..., n)
         The value of 3J symbol
     """
-    two_l2, two_l3, two_m2, two_m3 = int_broadcast(
-        two_l2, two_l3, two_m2, two_m3)
+    two_l2, two_l3, two_m2, two_m3 = int_broadcast(two_l2, two_l3, two_m2, two_m3)
 
     if (two_l2 < 0).any() or (two_l3 < 0).any():
-        raise ValueError('Some of l values are negative.')
+        raise ValueError("Some of l values are negative.")
     if (two_l2 < np.abs(two_m2)).any() or (two_l3 < np.abs(two_m3)).any():
-        raise ValueError('Some of m values are larger than l.')
+        raise ValueError("Some of m values are larger than l.")
 
     shape = two_l2.shape
     l1max = int(np.max(two_l2 + two_l3) + 1)
 
     thrcof, ier = _wigner.drc3jj_vec(
-        two_l2=two_l2.ravel(), two_l3=two_l3.ravel(),
-        two_m2=two_m2.ravel(), two_m3=two_m3.ravel(),
-        nvec=two_l2.size, ndim=l1max)
-    return np.arange(l1max), thrcof.reshape(shape + (l1max, ))
+        two_l2=two_l2.ravel(),
+        two_l3=two_l3.ravel(),
+        two_m2=two_m2.ravel(),
+        two_m3=two_m3.ravel(),
+        nvec=two_l2.size,
+        ndim=l1max,
+    )
+    return np.arange(l1max), thrcof.reshape(shape + (l1max,))
 
 
 def _drc3jj(two_l2, two_l3, two_m2, two_m3):
     """ scalar version of drc3jj """
-    l1max = (two_l2 + two_l3)
+    l1max = two_l2 + two_l3
     l1min = max(np.abs(two_l2 - two_l3), np.abs(two_m2 + two_m3))
     ndim = int((l1max - l1min + 2) / 2)
 
-    l1min, l1max, thrcof, ier = _wigner.drc3jj_int(
-        two_l2, two_l3, two_m2, two_m3, ndim)
+    l1min, l1max, thrcof, ier = _wigner.drc3jj_int(two_l2, two_l3, two_m2, two_m3, ndim)
     if ier == 1:
-        raise ValueError('Either L2.LT.ABS(M2) or L3.LT.ABS(M3).')
+        raise ValueError("Either L2.LT.ABS(M2) or L3.LT.ABS(M3).")
     elif ier == 2:
-        raise ValueError('Either L2+ABS(M2) or L3+ABS(M3) non-integer.')
+        raise ValueError("Either L2+ABS(M2) or L3+ABS(M3) non-integer.")
     elif ier == 3:
-        raise ValueError('L1MAX-L1MIN not an integer.')
+        raise ValueError("L1MAX-L1MIN not an integer.")
     elif ier == 4:
-        raise ValueError('L1MAX less than L1MIN.')
+        raise ValueError("L1MAX less than L1MIN.")
     elif ier == 5:
-        raise ValueError('NDIM less than L1MAX-L1MIN+1.')
+        raise ValueError("NDIM less than L1MAX-L1MIN+1.")
 
     return np.arange(l1min, l1min + ndim * 2, 2), thrcof
 
@@ -262,21 +282,31 @@ def drc6j(two_l2, two_l3, two_l4, two_l5, two_l6):
         The value of 3J symbol
     """
     two_l2, two_l3, two_l4, two_l5, two_l6 = int_broadcast(
-        two_l2, two_l3, two_l4, two_l5, two_l6)
+        two_l2, two_l3, two_l4, two_l5, two_l6
+    )
 
-    if ((two_l2 < 0).any() or (two_l3 < 0).any() or (two_l4 < 0).any() or
-            (two_l4 < 0).any() or (two_l5 < 0).any()):
-        raise ValueError('Some of l values are negative')
+    if (
+        (two_l2 < 0).any()
+        or (two_l3 < 0).any()
+        or (two_l4 < 0).any()
+        or (two_l4 < 0).any()
+        or (two_l5 < 0).any()
+    ):
+        raise ValueError("Some of l values are negative")
 
     shape = two_l2.shape
     l1max = int(np.max(two_l2 + two_l3) + 1)
 
     sixcof, ier = _wigner.drc6j_vec(
-        two_l2=two_l2.ravel(), two_l3=two_l3.ravel(),
-        two_l4=two_l4.ravel(), two_l5=two_l5.ravel(),
+        two_l2=two_l2.ravel(),
+        two_l3=two_l3.ravel(),
+        two_l4=two_l4.ravel(),
+        two_l5=two_l5.ravel(),
         two_l6=two_l6.ravel(),
-        nvec=two_l2.size, ndim=l1max)
-    return np.arange(l1max), sixcof.reshape(shape + (l1max, ))
+        nvec=two_l2.size,
+        ndim=l1max,
+    )
+    return np.arange(l1max), sixcof.reshape(shape + (l1max,))
 
 
 def _drc6j(two_l2, two_l3, two_l4, two_l5, two_l6):
@@ -286,16 +316,20 @@ def _drc6j(two_l2, two_l3, two_l4, two_l5, two_l6):
     ndim = int((two_l1max - two_l1min) / 2 + 1)
 
     l1min, l1max, sixcof, ier = _wigner.drc6j_int(
-        two_l2, two_l3, two_l4, two_l5, two_l6, ndim)
+        two_l2, two_l3, two_l4, two_l5, two_l6, ndim
+    )
 
     if ier == 1:
-        raise ValueError('L2+L3+L5+L6 and L2+L4+L6 must be integers')
+        raise ValueError("L2+L3+L5+L6 and L2+L4+L6 must be integers")
     elif ier == 2:
-        raise ValueError('ABS(L2-L4).LE.L6.LE.L2+L4 must be satisfied.')
+        raise ValueError("ABS(L2-L4).LE.L6.LE.L2+L4 must be satisfied.")
     elif ier == 3:
-        raise ValueError('ABS(L4-L5).LE.L3.LE.L4+L5 must be satisfied.')
+        raise ValueError("ABS(L4-L5).LE.L3.LE.L4+L5 must be satisfied.")
     elif ier == 4:
-        raise ValueError('L1MAX-L1MIN must be a non-negative integer, '
-                         'where L1MAX=MIN(L2+L3,L5+L6) and'  'L1MIN=MAX(ABS(L2-L3),ABS(L5-L6)).')
+        raise ValueError(
+            "L1MAX-L1MIN must be a non-negative integer, "
+            "where L1MAX=MIN(L2+L3,L5+L6) and"
+            "L1MIN=MAX(ABS(L2-L3),ABS(L5-L6))."
+        )
 
     return np.arange(l1min, l1min + ndim * 2, 2), sixcof
