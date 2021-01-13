@@ -76,3 +76,13 @@ def test_wigner6j_value():
     expected = np.array([value for _, value in SIX_J]).T
     actual = wigner6j(*six_j.astype(int))
     assert np.allclose(actual, expected)
+
+
+def test_wigner6j_GH13():
+    """
+    Test for https://github.com/fujiisoup/py3nj/issues/13
+    """
+    N = np.arange(10)
+    J = np.arange(11)[:, np.newaxis]
+    # should not fail
+    wigner6j(0, N * 2, N * 2, J * 2, 2, 2)
