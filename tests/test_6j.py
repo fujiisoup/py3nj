@@ -87,3 +87,13 @@ def test_wigner6j_GH13():
     J = np.arange(11)[:, np.newaxis]
     # should not fail
     wigner6j(0, N * 2, N * 2, J * 2, 2, 2)
+
+
+def test_wigner6j_ignore_invalid():
+    N = np.arange(1, 2)
+    K = np.arange(-2, 3)[:, np.newaxis]
+    with pytest.raises(ValueError):
+        # should raise an error
+        wigner6j(N * 2, K * 2, 0, 0, 0, 0, ignore_invalid=False)
+    # should compute
+    wigner6j(N * 2, K * 2, 0, 0, 0, 0, ignore_invalid=True)

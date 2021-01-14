@@ -130,6 +130,16 @@ def test_wigner3j_value(ignore_invalid):
     assert np.allclose(actual, expected)
 
 
+def test_wigner3j_ignore_invalid():
+    N = np.arange(1, 2)
+    K = np.arange(-2, 3)[:, np.newaxis]
+    with pytest.raises(ValueError):
+        # should raise an error
+        wigner3j(N * 2, K * 2, 0, 0, 0, 0, ignore_invalid=False)
+    # should compute
+    wigner3j(N * 2, K * 2, 0, 0, 0, 0, ignore_invalid=True)
+
+
 def test0d():
     for _ in range(100):
         l2 = rng.randint(0, 40) * 2
