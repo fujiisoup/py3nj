@@ -65,16 +65,17 @@ def test_wigner6j():
         assert np.allclose(actual, expected)
 
 
-def test_wigner6j_value():
+@pytest.mark.parametrize("ignore_invalid", [True, False])
+def test_wigner6j_value(ignore_invalid):
     # scalar test
     for six_j, expected in SIX_J:
         six_j = (np.array(six_j) * 2).astype(int)
-        actual = wigner6j(*six_j)
+        actual = wigner6j(*six_j, ignore_invalid=ignore_invalid)
         assert np.allclose(actual, expected)
     # test vector
     six_j = np.array([six for six, _ in SIX_J]).T * 2
     expected = np.array([value for _, value in SIX_J]).T
-    actual = wigner6j(*six_j.astype(int))
+    actual = wigner6j(*six_j.astype(int), ignore_invalid=ignore_invalid)
     assert np.allclose(actual, expected)
 
 

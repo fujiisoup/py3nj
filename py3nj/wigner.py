@@ -9,7 +9,9 @@ def int_broadcast(*args):
     return args
 
 
-def clebsch_gordan(two_j1, two_j2, two_j3, two_m1, two_m2, two_m3):
+def clebsch_gordan(
+    two_j1, two_j2, two_j3, two_m1, two_m2, two_m3, ignore_invalid=False
+):
     """ Calulate Clebsch-Gordan coefficient
     <j1 m1, j2 m2 | j3 m3>
 
@@ -23,6 +25,9 @@ def clebsch_gordan(two_j1, two_j2, two_j3, two_m1, two_m2, two_m3):
     two_m3: array of integers
         Since j1, ..., m3 should be integers or half integers, two_j1 (which
         means 2 x j1) should be all integers.
+    force_compute: boolean
+        If True, returns 0 even for invalid arguments.
+        Otherwise, raise a ValueError.
 
     Returns
     -------
@@ -38,11 +43,19 @@ def clebsch_gordan(two_j1, two_j2, two_j3, two_m1, two_m2, two_m3):
     return (
         -phase
         * np.sqrt(two_j3 + 1)
-        * wigner3j(two_j1, two_j2, two_j3, two_m1, two_m2, -two_m3)
+        * wigner3j(
+            two_j1,
+            two_j2,
+            two_j3,
+            two_m1,
+            two_m2,
+            -two_m3,
+            ignore_invalid=ignore_invalid,
+        )
     )
 
 
-def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
+def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3, ignore_invalid=False):
     """
     Calculate wigner 3j symbol
     (  L1   L2 L3)
@@ -58,6 +71,9 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
     two_m3: array of integers
         Since L1, ..., M3 should be integers or half integers, two_l1 (which
         means 2 x L1) should be all integers.
+    ignore_invalid: boolean
+        If True, returns 0 even for invalid arguments.
+        Otherwise, raise a ValueError.
 
     Returns
     -------
@@ -68,8 +84,17 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
         two_l1, two_l2, two_l3, two_m1, two_m2, two_m3
     )
 
-    if (two_l1 < 0).any():
+    if (two_l1 < 0).any() and not force_compute:
         raise ValueError("Some of l values are negative")
+
+    if ignore_invalid:
+        valid_argument = two_l1 >= 0
+        two_l1 = np.where(valid_argument, two_l1, 0)
+        two_l2 = np.where(valid_argument, two_l2, 0)
+        two_l3 = np.where(valid_argument, two_l3, 0)
+        two_m1 = np.where(valid_argument, two_m1, 0)
+        two_m2 = np.where(valid_argument, two_m2, 0)
+        two_m3 = np.where(valid_argument, two_m3, 0)
 
     l, thrcof = drc3jj(two_l2, two_l3, two_m2, two_m3)
 
@@ -78,6 +103,8 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
 
     two_l1 = two_l1.ravel()
     valid = (two_l1 < l1max) * ((two_m1 + two_m2 + two_m3).ravel() == 0)
+    if ignore_invalid:
+        valid = valid * valid_argument
 
     # temporary set the invalid l1 to zero
     two_l1 = np.where(valid, two_l1, 0)
@@ -88,7 +115,7 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3):
     return thrcof.reshape(shape)
 
 
-def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
+def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6, ignore_invalid=False):
     """
     Calculate wigner 6j symbol
     (L1 L2 L3)
@@ -104,6 +131,9 @@ def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
     two_l6: array of integers
         Since L1, ..., L6 should be integers or half integers, two_l1 (which
         means 2 x L1) should be all integers.
+    ignore_invalid: boolean
+        If True, returns 0 even for invalid arguments.
+        Otherwise, raise a ValueError.
 
     Returns
     -------
@@ -114,8 +144,17 @@ def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
         two_l1, two_l2, two_l3, two_l4, two_l5, two_l6
     )
 
-    if (two_l1 < 0).any():
+    if (two_l1 < 0).any() and not ignore_invalid:
         raise ValueError("Some of l values are negative")
+
+    if ignore_invalid:
+        valid_argument = two_l1 >= 0
+        two_l1 = np.where(valid_argument, two_l1, 0)
+        two_l2 = np.where(valid_argument, two_l2, 0)
+        two_l3 = np.where(valid_argument, two_l3, 0)
+        two_l4 = np.where(valid_argument, two_l4, 0)
+        two_l5 = np.where(valid_argument, two_l5, 0)
+        two_l6 = np.where(valid_argument, two_l6, 0)
 
     l, sixcof = drc6j(two_l2, two_l3, two_l4, two_l5, two_l6)
 
@@ -124,6 +163,8 @@ def wigner6j(two_l1, two_l2, two_l3, two_l4, two_l5, two_l6):
 
     two_l1 = two_l1.ravel()
     valid = two_l1 < l1max
+    if ignore_invalid:
+        valid = valid * valid_argument
 
     # temporary set the invalid l1 to the first value
     two_l1 = np.where(valid, two_l1, 0)

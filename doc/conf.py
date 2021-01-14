@@ -239,7 +239,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ("index", "py3nj.tex", "py3nj Documentation", "xr-scipy Developers", "manual"),
+    ("index", "py3nj.tex", "py3nj Documentation", "xr-scipy Developers", "manual")
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -287,7 +287,7 @@ texinfo_documents = [
         "py3nj",
         "Wigner symbols for python",
         "Miscellaneous",
-    ),
+    )
 ]
 
 # Documents to append as an appendix to all manuals.
