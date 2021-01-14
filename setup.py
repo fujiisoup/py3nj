@@ -38,7 +38,7 @@ setup(
     license="BSD 3-clause",
     keywords="atomic physics, quantum physics",
     url="http://github.com/fujiisoup/py3nj",
-    packages=["py3nj",],
+    packages=["py3nj"],
     package_dir={"py3nj": "py3nj"},
     py_modules=["py3nj.__init__"],
     ext_modules=[ext],

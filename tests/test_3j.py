@@ -103,14 +103,19 @@ def test_wigner3j(half_integer):
         assert np.allclose(actual, expected)
 
 
-def test_wigner3j_value():
+@pytest.mark.parametrize("ignore_invalid", [True, False])
+def test_wigner3j_value(ignore_invalid):
     # scalar test
     for three_j, expected in THREE_J:
         three_j = (np.array(three_j) * 2).astype(int)
-        actual = wigner3j(*three_j)
+        actual = wigner3j(*three_j, ignore_invalid=ignore_invalid)
         assert np.allclose(actual, expected)
         # broadcast the first argument
-        actual = wigner3j(np.array([three_j[0]])[:, np.newaxis], *three_j[1:])
+        actual = wigner3j(
+            np.array([three_j[0]])[:, np.newaxis],
+            *three_j[1:],
+            ignore_invalid=ignore_invalid
+        )
         assert np.allclose(actual, expected)
         # further broadcasting
         actual = wigner3j(
@@ -123,6 +128,16 @@ def test_wigner3j_value():
     expected = np.array([value for _, value in THREE_J]).T
     actual = wigner3j(*three_j)
     assert np.allclose(actual, expected)
+
+
+def test_wigner3j_ignore_invalid():
+    N = np.arange(1, 2)
+    K = np.arange(-2, 3)[:, np.newaxis]
+    with pytest.raises(ValueError):
+        # should raise an error
+        wigner3j(N * 2, K * 2, 0, 0, 0, 0, ignore_invalid=False)
+    # should compute
+    wigner3j(N * 2, K * 2, 0, 0, 0, 0, ignore_invalid=True)
 
 
 def test0d():
