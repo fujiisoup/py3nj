@@ -1,4 +1,4 @@
-name: xarray-docs
+name: py3nj-docs
 channels:
   - conda-forge
   - defaults
@@ -6,7 +6,6 @@ dependencies:
   - python>=3.6
   - numpy>=1.14
   - numpydoc
-  - matplotlib>=2.1.2
   - sphinx>=1.5
   - sphinx-gallery
   - ipython>=6.2.1
