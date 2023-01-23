@@ -63,7 +63,7 @@ cd /opt/homebrew/bin
 ln -s gcc-12 gcc
 ```
 
-Then `CC=gcc pip3 install py3nj`` installs the package without errors. 
+Then `CC=gcc pip3 install py3nj` installs the package without errors. 
 
 See [issue 18](https://github.com/fujiisoup/py3nj/issues/18#issuecomment-1400560818) for the original post.
 
