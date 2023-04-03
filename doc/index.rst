@@ -22,6 +22,22 @@ pip install py3nj
 
 You may need fortran compiler installed in your environment.
 
+Installing in macOS 
+``````````````````````````
+
+In macOS, even after installing gcc via homebrew, the gcc command is an alias to clang.
+Symlinked gcc to `/opt/homebrew/bin/gcc-12` as follows:
+
+`cd /opt/homebrew/bin`
+`ln -s gcc-12 gcc`
+
+Then `CC=gcc pip3 install py3nj`` installs the package without errors. 
+
+This description is posted in `Github issue 18`___.
+
+___ https://github.com/fujiisoup/py3nj/issues/18#issuecomment-1400560818
+
+
 
 Documentation
 -------------

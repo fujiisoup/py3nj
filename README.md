@@ -52,6 +52,21 @@ array([ 0.70710678, -0.70710678])
 pip install py3nj
 ```
 
+
+### Installing py3nj in macOS
+
+In macOS, even after installing gcc via homebrew, the gcc command is an alias to clang.
+Symlinked gcc to `/opt/homebrew/bin/gcc-12` as follows:
+
+```bash
+cd /opt/homebrew/bin
+ln -s gcc-12 gcc
+```
+
+Then `CC=gcc pip3 install py3nj` installs the package without errors. 
+
+See [issue 18](https://github.com/fujiisoup/py3nj/issues/18#issuecomment-1400560818) for the original post.
+
 ## Acknowledgement
 
 py3nj wraps [slatec](http://www.netlib.org/slatec/) fortran implementation.
