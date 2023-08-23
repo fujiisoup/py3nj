@@ -1,7 +1,7 @@
 project(
   'py3nj', 'c', 'fortran',
-  version: run_command('utils/version.py', check: true).stdout().strip(),
-  meson_version: '>=0.64.0',
+  version : run_command('utils/version.py', check: true).stdout().strip(),
+  meson_version : '>=0.64.0',
   default_options : ['warning_level=2'],
 )
 
@@ -45,6 +45,6 @@ py.install_sources(
   'src/__init__.py',
   'src/_version.py',
   'src/wigner.py',
-  pure: false,
-  subdir: 'py3nj',
+  pure : false,
+  subdir : 'py3nj',
 )
