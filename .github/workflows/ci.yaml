@@ -48,7 +48,7 @@ jobs:
           source /usr/share/miniconda/etc/profile.d/conda.sh;
           conda activate test_env;
           conda list;
-          pip install --no-deps -e .;
+          pip install --no-deps .;
           python -m pip install --no-deps -e .
       - name: Import py3nj
         run: |
