@@ -36,8 +36,7 @@ py.extension_module(
   'fortran/drc6j.f',
   incdir_f2py / 'fortranobject.c',
   include_directories: include_directories(incdir_numpy, incdir_f2py),
-  c_args: ['-fopenmp'],
-  dependencies : py.dependency(),
+  dependencies : dependency('openmp'),
   install : true,
   subdir: 'py3nj',
 )
