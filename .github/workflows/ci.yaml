@@ -50,16 +50,16 @@ jobs:
           conda list;
           pip install --no-deps .;
           python -m pip install --no-deps .
-      - name: Run tests
-        run: |
-          source /usr/share/miniconda/etc/profile.d/conda.sh;
-          conda activate test_env;
-          python -m pytest
       - name: Import py3nj
         run: |
           source /usr/share/miniconda/etc/profile.d/conda.sh;
           conda activate test_env;
           python -c "import py3nj"
+      - name: Run tests
+        run: |
+          source /usr/share/miniconda/etc/profile.d/conda.sh;
+          conda activate test_env;
+          python -m pytest
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
