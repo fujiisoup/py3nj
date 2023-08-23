@@ -1,10 +1,6 @@
 [build-system]
-requires = [
-  "setuptools",
-  "setuptools-scm",
-  "numpy",
-]
-build-backend = "setuptools.build_meta"
+requires = ["meson-python", "numpy"]
+build-backend = "mesonpy"
 
 [project]
 name = "py3nj"
@@ -32,5 +28,3 @@ dynamic = ["version"]
 [project.urls]
 "Source Code" = "http://github.com/fujiisoup/py3nj"
 
-[tool.setuptools.dynamic]
-version = {attr = "py3nj._version.__version__"}
