@@ -1,0 +1,36 @@
+[build-system]
+requires = [
+  "setuptools",
+  "setuptools-scm",
+  "numpy",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py3nj"
+authors = [
+  {name = "Keisuke Fujii", email = "fujiisoup@gmail.com"},
+]
+description = "numpy compatible wigner 3n-J symbols"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["atomic physics", "quantum physics"]
+dependencies = [
+  "numpy",
+]
+classifiers = [
+  "License :: OSI Approved :: BSD License",
+  "Natural Language :: English",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.6",
+  "Topic :: Scientific/Engineering :: Physics",
+]
+dynamic = ["version"]
+
+[project.urls]
+"Source Code" = "http://github.com/fujiisoup/py3nj"
+
+[tool.setuptools.dynamic]
+version = {attr = "py3nj._version.__version__"}
