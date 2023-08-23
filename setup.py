@@ -16,6 +16,7 @@ ext = Extension(
 )
 
 setup(
-    packages=["src"],
+    packages=["py3nj"],
+    package_dir = {'py3nj': 'src'},
     ext_modules=[ext],
 )
