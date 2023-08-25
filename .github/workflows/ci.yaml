@@ -31,8 +31,9 @@ jobs:
           - os: windows-latest
             label: win-64
             prefix: C:\Miniconda3\envs\my-env
-            python-version: "3.10"
-            
+            python-version: "3.10"      
+      fail-fast: false
+
     name: ${{ matrix.label }}-${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     steps:
