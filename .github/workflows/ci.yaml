@@ -42,10 +42,11 @@ jobs:
         run: |
           echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
           echo "CONDA_ENV_FILE=ci/requirements/py${{ matrix.python-version }}.yml" >> $GITHUB_ENV
+          echo "C:\Users\YourUsername\Anaconda3\Scripts" >> $GITHUB_PATH
       - name: Setup miniconda and install py3nj
         run: |
+          #source /usr/share/miniconda/etc/profile.d/conda.sh;
           conda env create -n test_env --file $CONDA_ENV_FILE;
-          source /usr/share/miniconda/etc/profile.d/conda.sh;
           conda activate test_env;
           conda list;
           pip install --no-deps .;
