@@ -47,11 +47,11 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ${{ matrix.prefix }}
-          key: ${{ matrix.label }}-conda-${{ hashFiles('ci/requirements/${{ matrix.python-version }}.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+          key: ${{ matrix.label }}-conda-${{ hashFiles('ci/requirements/py${{ matrix.python-version }}.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
         id: cache
 
       - name: Update environment
-        run: mamba env update -n my-env -f ci/requirements/${{ matrix.python-version }}.yml
+        run: mamba env update -n my-env -f ci/requirements/py${{ matrix.python-version }}.yml
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Run tests
