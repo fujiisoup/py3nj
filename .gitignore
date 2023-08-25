@@ -19,3 +19,9 @@ dist
 # docs
 doc/_build
 doc/generated
+
+# editors
+*code-workspace
+
+# pypirc
+.pypirc

@@ -48,8 +48,19 @@ array([ 0.70710678, -0.70710678])
 
 ## Install
 
+`py3nj` can be installed through either `pip` or github repository.
+
+### Install by pip
 ```
 pip install py3nj
+```
+
+### Install through github
+
+```
+git clone https://github.com/fujiisoup/py3nj
+cd py3nj
+pip install .
 ```
 
 ## Acknowledgement
