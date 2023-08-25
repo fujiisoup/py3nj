@@ -39,6 +39,7 @@ jobs:
           auto-update-conda: true
           python-version: ${{ matrix.python-version }}
       - name: Setup miniconda and install py3nj
+        shell: bash -el {0}
         run: |
           echo "CONDA_ENV_FILE=ci/requirements/py${{ matrix.python-version }}.yml" >> $GITHUB_ENV
           conda env create -n test_env --file $CONDA_ENV_FILE;
@@ -46,11 +47,13 @@ jobs:
           conda list;
           pip install --no-deps .;
       - name: Import py3nj
+        shell: bash -el {0}
         run: |
           source /usr/share/miniconda/etc/profile.d/conda.sh;
           conda activate test_env;
           python -c "import py3nj"
       - name: Run tests
+        shell: bash -el {0}
         run: |
           source /usr/share/miniconda/etc/profile.d/conda.sh;
           conda activate test_env;
