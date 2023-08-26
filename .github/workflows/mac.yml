@@ -1,4 +1,4 @@
-name: Test (Windows)
+name: Test (Mac OS)
 
 on:
   push:
@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-windows:
-    name: Test (Windows)
-    runs-on: windows-latest
+  test-mac:
+    name: Test (Mac OS)
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -17,7 +17,7 @@ jobs:
 
     - name: Install build dependencies
       run: |
-        choco install ninja
+        brew install ninja
 
     - name: Install py3nj
       run: |

@@ -1,4 +1,4 @@
-name: Test (Windows)
+name: Test (Linux)
 
 on:
   push:
@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-windows:
-    name: Test (Windows)
-    runs-on: windows-latest
+  test-linux:
+    name: Test (Linux)
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -17,7 +17,7 @@ jobs:
 
     - name: Install build dependencies
       run: |
-        choco install ninja
+        sudo apt-get install -y ninja-build
 
     - name: Install py3nj
       run: |
