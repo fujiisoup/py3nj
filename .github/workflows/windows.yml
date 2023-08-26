@@ -16,8 +16,12 @@ jobs:
       with:
         python-version: '3.11'
 
+    - name: Prepare MSVC
+      uses: bus1/cabuild/action/msdevshell@v1
+      with:
+        architecture: x64
+
     - name: Install py3nj
-      shell: powershell
       run: |
         pip install . -Csetup-args="--vsenv"
 
