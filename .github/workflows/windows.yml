@@ -1,0 +1,30 @@
+name: Test (Windows)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-windows:
+    name: Test (Windows)
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install py3nj
+      run: |
+        pip install . -Csetup-args="--vsenv"
+
+    - name: Install test dependencies
+      run: |
+        pip install pytest
+
+    - name: Run test suite
+      run: |
+        pytest
+
