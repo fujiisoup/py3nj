@@ -63,6 +63,6 @@ jobs:
       - name: Run tests
         shell: bash -l {0}
         run: |
-          pip install --no-deps .;
+          pip install .;
           pytest ./tests
           python -c "import py3nj"

@@ -1,5 +1,6 @@
 name: test_env
 dependencies:
+  - compilers
+  - openmp
   - python=3.6
   - pytest
-  - numpy
