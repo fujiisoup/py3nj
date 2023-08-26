@@ -16,10 +16,8 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-
     - name: Install py3nj
+      shell: powershell
       run: |
         pip install . -Csetup-args="--vsenv"
 
