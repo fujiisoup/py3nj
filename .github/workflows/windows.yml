@@ -17,6 +17,7 @@ jobs:
 
     - name: Install build dependencies
       run: |
+        pip install --upgrade pip
         choco install ninja
 
     - name: Install py3nj
