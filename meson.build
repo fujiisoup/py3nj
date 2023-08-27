@@ -7,7 +7,11 @@ project(
 
 # https://github.com/mesonbuild/meson-python/issues/178
 if host_machine.system() == 'windows'
-  add_project_link_arguments(['-lucrt', '-static'], language: ['c', 'fortran'])
+  add_project_link_arguments(
+    ['-lucrt', '-lquadmath', '-static'],
+    language: ['c', 'fortran'],
+  )
+  add_project_arguments('-mlong-double-64', language: 'c')
 endif
 
 py_mod = import('python')
