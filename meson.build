@@ -5,18 +5,27 @@ project(
   default_options : ['warning_level=2'],
 )
 
+# https://github.com/mesonbuild/meson-python/issues/178
+# https://github.com/scipy/scipy/blob/a082eb415192f3075921fbf3e539f2b82a53811e/scipy/meson.build#L5-L35
+if host_machine.system() == 'windows'
+  add_project_link_arguments(
+    ['-lucrt', '-lquadmath', '-static'],
+    language: ['c', 'fortran'],
+  )
+endif
+
 py_mod = import('python')
 py = py_mod.find_installation(pure: false)
 
 incdir_numpy = run_command(
   py,
-  ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
+  ['-c', 'import numpy; print(numpy.get_include())'],
   check : true,
 ).stdout().strip()
 
 incdir_f2py = run_command(
   py,
-  ['-c', 'import os; os.chdir(".."); import numpy.f2py; print(numpy.f2py.get_include())'],
+  ['-c', 'import numpy.f2py; print(numpy.f2py.get_include())'],
   check : true,
 ).stdout().strip()
 

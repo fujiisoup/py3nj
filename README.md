@@ -48,7 +48,8 @@ array([ 0.70710678, -0.70710678])
 
 ## Install
 
-`py3nj` can be installed through either `pip` or github repository.
+`py3nj` can be installed through either `pip` or github repository.  You'll 
+likely need to have [ninja](https://ninja-build.org/) installed.
 
 ### Install by pip
 ```
