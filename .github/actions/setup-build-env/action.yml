@@ -6,21 +6,17 @@ runs:
   steps:
     - uses: awvwgk/setup-fortran@v1
 
-    - name: Upgrade pip
-      run: |
-        pip install --upgrade pip
+    - run: pip install --upgrade pip
+      shell: bash
 
-    - name: Install build dependencies (Linux)
-      if: runner.os == 'Linux'
-      run: |
-        sudo apt-get install -y ninja-build
+    - if: runner.os == 'Linux'
+      run: sudo apt-get install -y ninja-build
+      shell: bash
 
-    - name: Install build dependencies (Mac OS)
-      if: runner.os == 'macOS'
-      run: |
-        brew install ninja
+    - if: runner.os == 'macOS'
+      run: brew install ninja
+      shell: bash
 
-    - name: Install build dependencies (Windows)
-      if: runner.os == 'Windows'
-      run: |
-        choco install ninja
+    - if: runner.os == 'Windows'
+      run: choco install ninja
+      shell: bash
