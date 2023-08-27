@@ -38,9 +38,3 @@ jobs:
     - name: Run test suite
       run: |
         pytest
-
-    - name: Build wheels
-      if: matrix.python-version == '3.x'  # only run once per OS
-      uses: pypa/cibuildwheel@v2.15.0
-      env:
-        CIBW_SKIP: cp312-*
