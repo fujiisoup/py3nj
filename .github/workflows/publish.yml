@@ -1,4 +1,4 @@
-name: Wheels
+name: Publish
 
 on:
   workflow_dispatch:
@@ -7,40 +7,37 @@ on:
       - published
             
 jobs:
-    make_sdist:
-        name: Make SDist
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v3
-            with:
-              fetch-depth: 0 # Optional, use if you use setuptools_scm
-              submodules: true # Optional, use if you have submodules
-      
-          - name: Build SDist
-            run: pipx run build --sdist
-      
-          - uses: actions/upload-artifact@v3
-            with:
-              path: dist/*.tar.gz
+  make_sdist:
+    name: Make SDist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx run build --sdist
+      - uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.tar.gz
 
-    build_wheels:
-        name: Wheel on ${{ matrix.os }}
-        runs-on: ${{ matrix.os }}
-        strategy:
-            fail-fast: false
-            matrix:
-              os: [ubuntu-latest, windows-latest, macos-latest]
-        
-        steps:
-          - uses: actions/checkout@v3
-            with:
-                fetch-depth: 0
-                submodules: true
-        
-          - uses: pypa/cibuildwheel@v2.15
-        
-          - name: Upload wheels
-            uses: actions/upload-artifact@v3
-            with:
-                path: wheelhouse/*.whl
-              
+  build_wheels:
+    name: Build wheel (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Excluding windows because it doesn't work.  I think that static 
+        # linking might not be compatible with cibuildwheel, and `delvewheel` 
+        # might be a better approach.
+        os: [ubuntu-latest, macos-latest]
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - uses: ./.github/actions/setup-build-env
+      - uses: pypa/cibuildwheel@v2.15
+        env:
+          CIBW_SKIP: cp312-*  # skip 3.12 until `pip install numpy` works
+      - uses: actions/upload-artifact@v3
+        with:
+            path: wheelhouse/*.whl
+          

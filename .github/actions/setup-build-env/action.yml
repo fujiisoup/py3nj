@@ -1,6 +1,8 @@
 name: Setup build environment
 description: "Install ninja and a fortran compiler"
 
+# It's assumed that `actions/setup-python` is run before this one.
+
 runs:
   using: "composite"
   steps:
