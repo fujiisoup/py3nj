@@ -6,12 +6,12 @@ project(
 )
 
 # https://github.com/mesonbuild/meson-python/issues/178
+# https://github.com/scipy/scipy/blob/a082eb415192f3075921fbf3e539f2b82a53811e/scipy/meson.build#L5-L35
 if host_machine.system() == 'windows'
   add_project_link_arguments(
-    ['-lucrt', '-static'],
+    ['-lucrt', '-lquadmath', '-static'],
     language: ['c', 'fortran'],
   )
-  add_project_arguments('-mlong-double-64', language: 'c')
 endif
 
 py_mod = import('python')
