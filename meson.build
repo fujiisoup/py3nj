@@ -5,6 +5,11 @@ project(
   default_options : ['warning_level=2'],
 )
 
+# https://github.com/mesonbuild/meson-python/issues/178
+if host_machine.system() == 'windows'
+  add_project_link_arguments(['-lucrt', '-static'], language: ['c', 'fortran'])
+endif
+
 py_mod = import('python')
 py = py_mod.find_installation(pure: false)
 
