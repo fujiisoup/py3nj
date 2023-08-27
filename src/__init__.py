@@ -13,7 +13,7 @@ if sys.platform == "win32" and os.path.isdir(extra_dll_dir):
 # The fortran compiler can be different from gfortran, or can be different from what was used when py3nj is installed 
 if sys.platform == "win32":
     import subprocess
-    result = subprocess.check_output(['where', 'gfortran'], stdout=subprocess.PIPE)
+    result = subprocess.run(['where', 'gfortran'], stdout=subprocess.PIPE)
     path = os.path.dirname(result.stdout.decode('utf-8'))
     os.add_dll_directory(path)
 
