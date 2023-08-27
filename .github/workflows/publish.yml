@@ -2,7 +2,7 @@ name: Wheels
 
 on:
   workflow_dispatch:
-  master:
+  release:
     types:
       - published
             
