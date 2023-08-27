@@ -1,0 +1,26 @@
+name: Setup build environment
+description: "Install ninja and a fortran compiler"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: awvwgk/setup-fortran@v1
+
+    - name: Upgrade pip
+      run: |
+        pip install --upgrade pip
+
+    - name: Install build dependencies (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get install -y ninja-build
+
+    - name: Install build dependencies (Mac OS)
+      if: runner.os == 'macOS'
+      run: |
+        brew install ninja
+
+    - name: Install build dependencies (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        choco install ninja
