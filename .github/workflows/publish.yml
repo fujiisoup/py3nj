@@ -36,7 +36,10 @@ jobs:
       - uses: ./.github/actions/setup-build-env
       - uses: pypa/cibuildwheel@v2.15
         env:
+          CIBW_TEST_REQUIRES: pytest
+          CIBW_TEST_COMMAND: pytest {package}
           CIBW_SKIP: cp312-*  # skip 3.12 until `pip install numpy` works
+
       - uses: actions/upload-artifact@v3
         with:
             path: wheelhouse/*.whl
