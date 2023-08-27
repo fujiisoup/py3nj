@@ -1,11 +1,11 @@
 name: CI
 on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    branches:
-      - "*"
+  # push:
+  #   branches:
+  #     - "*"
+  # pull_request:
+  #   branches:
+  #     - "*"
   workflow_dispatch: # allows you to trigger manually
 
 jobs:
@@ -61,8 +61,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Run tests
-        shell: bash -l {0}
         run: |
-          pip install .;
-          pytest ./tests
+          pip install .
+          pytest tests
           python -c "import py3nj"
