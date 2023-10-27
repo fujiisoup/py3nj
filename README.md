@@ -51,12 +51,48 @@ array([ 0.70710678, -0.70710678])
 `py3nj` can be installed through either `pip` or github repository.  You'll 
 likely need to have [ninja](https://ninja-build.org/) installed.
 
+Also, any fortran compiler must be installed in the system. 
+An example setup for Windows systems will be found below.
+
 ### Install by pip
 ```
 pip install py3nj
 ```
 
 ### Install through github
+
+```
+git clone https://github.com/fujiisoup/py3nj
+cd py3nj
+pip install .
+```
+
+### Installing Fortran to Windows
+
+There are several ways to install Fortran. Common ways are
+- Install cygwin, or MinGW
+- Install WSL (windows subsystem for linux)
+
+Sometimes people have problems with installing Fortran, not only because of the lack of experience, but also due to the security rules from the owners institutes.
+In my case, I am not able to install WSL.
+
+The following is one of the example installation configuration, which might not be affected by the security rules.
+
+#### Install [`quickstart-fortran`](https://github.com/LKedward/quickstart-fortran)
+
+[`quickstart-fortran`](https://github.com/LKedward/quickstart-fortran) is an easy Windows installer and launcher for GFortran and the Fortran Package Manager.
+This does not require the administrative privilege, and thus it might not be affected many of the security rules.
+
+Go to their [*Release* page](https://github.com/LKedward/quickstart-fortran/releases), download the latest version of the installer, and run it after it is downloaded.
+
+You may need to restart your terminal, such as `Anaconda Prompt`.
+Then, do either
+
+```
+pip install py3nj
+```
+
+or 
 
 ```
 git clone https://github.com/fujiisoup/py3nj
