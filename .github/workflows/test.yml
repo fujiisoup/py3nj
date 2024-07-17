@@ -29,6 +29,9 @@ jobs:
 
     - name: Install py3nj
       run: |
+        # try uninstalling numpy
+        pip uninstall -y numpy
+        # try installing
         pip install .
 
     - name: Install test dependencies
