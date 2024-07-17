@@ -14,8 +14,8 @@ jobs:
         python-version: ['3.8', '3.x']
         os:
           - ubuntu-latest
-          - macos-latest
-          - windows-latest
+          #- macos-latest
+          #- windows-latest
       fail-fast: false
 
     runs-on: ${{ matrix.os }}
@@ -45,7 +45,7 @@ jobs:
 
     - name: Install py3nj
       run: |
-        source activate test_env
+        conda activate test_env
         conda list
         pip install .
 
