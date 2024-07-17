@@ -42,11 +42,11 @@ jobs:
       run: |
         export PATH="/usr/share/miniconda/bin:$PATH"
         conda create -n test_env
-        source activate test_env
-        conda list
 
     - name: Install py3nj
       run: |
+        source activate test_env
+        conda list
         pip install .
 
     - name: Install test dependencies
