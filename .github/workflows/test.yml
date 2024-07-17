@@ -36,11 +36,11 @@ jobs:
         hash -r
         conda config --set always_yes yes --set changeps1 no --set show_channel_urls true
         conda update -q conda
+        conda info -a
 
     - name: Checking environment
       run: |
-        conda info -a
-        conda env create -n test_env
+        conda create -n test_env
         source activate test_env
         conda list
 
