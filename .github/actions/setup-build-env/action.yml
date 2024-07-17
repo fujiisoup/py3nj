@@ -16,7 +16,9 @@ runs:
       shell: bash
 
     - if: runner.os == 'macOS'
-      run: brew install ninja
+      run: 
+        brew install ninja
+        brew install clang-omp
       shell: bash
 
     - if: runner.os == 'Windows'
