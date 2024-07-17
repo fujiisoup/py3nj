@@ -26,8 +26,8 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - uses: ./.github/actions/setup-build-env
-
-    - name: Install py3nj
+    
+    - name: Preparing environment
       run: |
         # try using miniconda
         wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.9.2-Linux-x86_64.sh -O miniconda.sh;
@@ -36,10 +36,16 @@ jobs:
         hash -r
         conda config --set always_yes yes --set changeps1 no --set show_channel_urls true
         conda update -q conda
+
+    - name: Checking environment
+      run: |
         conda info -a
         conda env create -n test_env
         source activate test_env
         conda list
+
+    - name: Install py3nj
+      run: |
         pip install .
 
     - name: Install test dependencies
