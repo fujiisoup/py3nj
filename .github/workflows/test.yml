@@ -40,12 +40,12 @@ jobs:
 
     - name: Checking environment
       run: |
-        export PATH="/usr/share/miniconda/bin:$PATH"
         conda create -n test_env
 
     - name: Install py3nj
       run: |
-        conda activate test_env
+        export PATH="$HOME/miniconda/bin:$PATH"
+        source activate test_env
         conda list
         pip install .
 
