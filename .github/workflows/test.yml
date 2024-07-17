@@ -40,8 +40,8 @@ jobs:
 
     - name: Install py3nj
       run: |
-        conda create -n test_env
         export PATH="$HOME/miniconda/bin:$PATH"
+        conda create -n test_env
         source activate test_env
         conda list
         pip install .
