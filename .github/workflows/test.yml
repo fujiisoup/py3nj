@@ -40,6 +40,7 @@ jobs:
 
     - name: Checking environment
       run: |
+        export PATH="/usr/share/miniconda/bin:$PATH"
         conda create -n test_env
         source activate test_env
         conda list
