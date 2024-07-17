@@ -38,12 +38,9 @@ jobs:
         conda update -q conda
         conda info -a
 
-    - name: Checking environment
-      run: |
-        conda create -n test_env
-
     - name: Install py3nj
       run: |
+        conda create -n test_env
         export PATH="$HOME/miniconda/bin:$PATH"
         source activate test_env
         conda list
