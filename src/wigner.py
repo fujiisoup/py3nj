@@ -25,7 +25,7 @@ def clebsch_gordan(
     two_m3: array of integers
         Since j1, ..., m3 should be integers or half integers, two_j1 (which
         means 2 x j1) should be all integers.
-    force_compute: boolean
+    ignore_invalid: boolean
         If True, returns 0 even for invalid arguments.
         Otherwise, raise a ValueError.
 
@@ -84,7 +84,7 @@ def wigner3j(two_l1, two_l2, two_l3, two_m1, two_m2, two_m3, ignore_invalid=Fals
         two_l1, two_l2, two_l3, two_m1, two_m2, two_m3
     )
 
-    if (two_l1 < 0).any() and not force_compute:
+    if (two_l1 < 0).any() and not ignore_invalid:
         raise ValueError("Some of l values are negative")
 
     if ignore_invalid:
